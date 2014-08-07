@@ -88,4 +88,21 @@ class BuilderRegistryTest extends ProphecyTestCase
 
         $this->assertEquals(array('builder4', 'builder2', 'builder3', 'builder1'), $builderNames);
     }
+
+    public function testGetBuildersForTarget()
+    {
+        $this->buildRegistry->addBuilder($this->createBuilder('builder1')->reveal());
+        $this->buildRegistry->addBuilder($this->createBuilder('builder2')->reveal());
+        $this->buildRegistry->addBuilder($this->createBuilder('builder3', array('builder1'))->reveal());
+
+        
+        $builders = $this->buildRegistry->getBuilders('builder3');
+
+        $builderNames = array();
+        foreach ($builders as $builder) {
+            $builderNames[] = $builder->getName();
+        }
+
+        $this->assertEquals(array('builder1', 'builder3'), $builderNames);
+    }
 }

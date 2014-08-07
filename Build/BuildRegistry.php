@@ -19,13 +19,45 @@ class BuildRegistry
         $this->builders[$builder->getName()] = $builder;
     }
 
-    public function getBuilders()
+    public function getBuilders($target = null)
     {
         $builders = $this->builders;
+
+        if (null !== $target) {
+            $builders = $this->getBuildersForTarget($target);
+        }
         $orderedBuilders = $this->resolveDependencies($builders);
+
         return $orderedBuilders;
     }
 
+    protected function getBuildersForTarget($target, $list = array(), $resolved = array())
+    {
+        $builders = array();
+        $builder = $this->builders[$target];
+        $dependencies = $builder->getDependencies();
+
+        foreach ($dependencies as $dependency) {
+            $list[$dependency] = $this->builders[$dependency];
+            if (!isset($resolved[$dependency])) {
+                $depBuilders = $this->getBuildersForTarget($dependency, $list, $resolved);
+
+                foreach ($depBuilders as $depBuilder) {
+                    $builders[] = $depBuilder;
+                }
+            }
+        }
+
+        $list[$target] = $builder;
+        $resolved[$target] = true;
+
+        return array_values($list);
+    }
+
+    /**
+     * Algorithim heavily influenced by: 
+     * https://github.com/doctrine/data-fixtures/blob/master/lib/Doctrine/Common/DataFixtures/Loader.php
+     */
     protected function resolveDependencies($builders)
     {
         $builderSequence = array();
