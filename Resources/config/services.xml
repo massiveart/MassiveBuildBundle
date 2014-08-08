@@ -4,17 +4,20 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="massive_art_build.example.class">MassiveArt\Bundle\BuildBundle\Example</parameter>
+        <parameter key="massive_build.build.registry.class">MassiveArt\Bundle\BuildBundle\Build\BuildRegistry</parameter>
+        <parameter key="massive_build.command.build.class">MassiveArt\Bundle\BuildBundle\Command\BuildCommand</parameter>
     </parameters>
 
     <services>
-        <service id="massive_art_build.example" class="%massive_art_build.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="massive_build.build.registry" class="%massive_build.build.registry.class%">
+        </service>
+
+        <service id="massive_build.command.build" class="%massive_build.command.build.class%">
+            <argument type="service" id="massive_build.build.registry" />
+            <argument type="service" id="service_container" />
+            <tag name="console.command" />
         </service>
     </services>
-    -->
+
 </container>

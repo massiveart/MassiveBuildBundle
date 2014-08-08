@@ -2,15 +2,28 @@
 
 namespace MassiveArt\Bundle\BuildBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use MassiveArt\Bundle\BuildBundle\Build\BuildRegistry;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Console\Helper\FormatterHelper;
 
-class BuildCommand extends ContainerAwareCommand
+class BuildCommand extends Command
 {
     protected $buildRegistry;
+    protected $container;
+    protected $formatter;
+
+    public function __construct(BuildRegistry $buildRegistry, ContainerInterface $container)
+    {
+        parent::__construct();
+        $this->buildRegistry = $buildRegistry;
+        $this->container = $container;
+        $this->formatter = new FormatterHelper();
+    }
 
     public function configure()
     {
@@ -21,20 +34,21 @@ class BuildCommand extends ContainerAwareCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $target = $input->getArgument('target');
+
         $builders = $this->buildRegistry->getBuilders($target);
 
         $start = microtime(true);
 
         foreach ($builders as $builder) {
             if ($builder instanceof ContainerAwareInterface) {
-                $builder->setContainer($this->getContainer());
+                $builder->setContainer($this->container);
             }
 
-            $output->writeln($this->getDialog('formatter')->formatBlock(array(
+            $output->writeln($this->formatter->formatBlock(array(
                 '',
                 'Target: ' . $builder->getName(),
                 ''
-            )));
+            ), 'info'));
 
             $builder->build($input, $output);
         }
