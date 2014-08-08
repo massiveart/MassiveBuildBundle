@@ -1,9 +1,9 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\Tests\Build;
+namespace Massive\Bundle\BuildBundle\Tests\Build;
 
 use Prophecy\PhpUnit\ProphecyTestCase;
-use MassiveArt\Bundle\BuildBundle\Build\BuildRegistry;
+use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 
 class BuilderRegistryTest extends ProphecyTestCase
 {
@@ -16,7 +16,7 @@ class BuilderRegistryTest extends ProphecyTestCase
 
     protected function createBuilder($name, $dependencies = array())
     {
-        $builder = $this->prophesize('MassiveArt\Bundle\BuildBundle\Build\BuilderInterface');
+        $builder = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuilderInterface');
         $builder->getName()->willReturn($name);
         $builder->getDependencies()->willReturn($dependencies);
 

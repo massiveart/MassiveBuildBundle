@@ -1,11 +1,11 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\Tests\Command;
+namespace Massive\Bundle\BuildBundle\Tests\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
 use Prophecy\PhpUnit\ProphecyTestCase;
-use MassiveArt\Bundle\BuildBundle\Command\BuildCommand;
-use MassiveArt\Bundle\BuildBundle\Build\BuilderInterface;
+use Massive\Bundle\BuildBundle\Command\BuildCommand;
+use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Prophecy\Argument;
 
@@ -15,12 +15,12 @@ class BuildCommandTest extends ProphecyTestCase
     {
         parent::setUp();
 
-        $this->buildRegistry = $this->prophesize('MassiveArt\Bundle\BuildBundle\Build\BuildRegistry');
+        $this->buildRegistry = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuildRegistry');
         $this->container = $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $this->builder1 = $this->prophesize('MassiveArt\Bundle\BuildBundle\Build\BuilderInterface');
+        $this->builder1 = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuilderInterface');
         $this->builder1->getName()->willReturn('Builder 1');
-        $this->builder2 = $this->prophesize('MassiveArt\Bundle\BuildBundle\Tests\Command\TestContainerAwareBuilder');
+        $this->builder2 = $this->prophesize('Massive\Bundle\BuildBundle\Tests\Command\TestContainerAwareBuilder');
         $this->builder2->getName()->willReturn('Builder 2');
 
         $this->command = new BuildCommand(

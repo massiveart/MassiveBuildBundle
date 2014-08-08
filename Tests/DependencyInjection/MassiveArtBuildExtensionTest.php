@@ -1,16 +1,16 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\Tests\DependencyInjection;
+namespace Massive\Bundle\BuildBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
-use MassiveArt\Bundle\BuildBundle\DependencyInjection\MassiveArtBuildExtension;
+use Massive\Bundle\BuildBundle\DependencyInjection\MassiveBuildExtension;
 
-class MassiveArtBuildExtensionTest extends AbstractExtensionTestCase
+class MassiveBuildExtensionTest extends AbstractExtensionTestCase
 {
     protected function getContainerExtensions()
     {
         return array(
-            new MassiveArtBuildExtension()
+            new MassiveBuildExtension()
         );
     }
 

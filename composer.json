@@ -14,7 +14,7 @@
         "symfony/framework-bundle": "~2.4"
     },
     "autoload": {
-        "psr-4": {"MassiveArt\\Bundle\\BuildBundle\\": "."}
+        "psr-4": {"Massive\\Bundle\\BuildBundle\\": "."}
     },
     "require-dev": {
         "phpspec/prophecy-phpunit": "v1.0.1",

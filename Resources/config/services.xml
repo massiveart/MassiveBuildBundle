@@ -5,8 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="massive_build.build.registry.class">MassiveArt\Bundle\BuildBundle\Build\BuildRegistry</parameter>
-        <parameter key="massive_build.command.build.class">MassiveArt\Bundle\BuildBundle\Command\BuildCommand</parameter>
+        <parameter key="massive_build.build.registry.class">Massive\Bundle\BuildBundle\Build\BuildRegistry</parameter>
+        <parameter key="massive_build.command.build.class">Massive\Bundle\BuildBundle\Command\BuildCommand</parameter>
     </parameters>
 
     <services>

@@ -5,6 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="massive_art_build_homepage" path="/hello/{name}">
-        <default key="_controller">MassiveArtBuildBundle:Default:index</default>
+        <default key="_controller">MassiveBuildBundle:Default:index</default>
     </route>
 </routes>

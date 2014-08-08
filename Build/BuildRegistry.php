@@ -1,8 +1,8 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\Build;
+namespace Massive\Bundle\BuildBundle\Build;
 
-use MassiveArt\Bundle\BuildBundle\Build\BuilderInterface;
+use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 
 class BuildRegistry
 {

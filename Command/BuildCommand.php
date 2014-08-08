@@ -1,12 +1,12 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\Command;
+namespace Massive\Bundle\BuildBundle\Command;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use MassiveArt\Bundle\BuildBundle\Build\BuildRegistry;
+use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;

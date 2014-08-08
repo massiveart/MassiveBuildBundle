@@ -1,12 +1,12 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle;
+namespace Massive\Bundle\BuildBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use MassiveArt\Bundle\BuildBundle\DependencyInjection\Compiler\BuilderPass;
+use Massive\Bundle\BuildBundle\DependencyInjection\Compiler\BuilderPass;
 
-class MassiveArtBuildBundle extends Bundle
+class MassiveBuildBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

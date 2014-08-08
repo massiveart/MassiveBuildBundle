@@ -1,6 +1,6 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\DependencyInjection\Compiler;
+namespace Massive\Bundle\BuildBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

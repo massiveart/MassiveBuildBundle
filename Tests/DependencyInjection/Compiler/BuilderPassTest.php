@@ -1,8 +1,8 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\Tests\DependencyInjection\Compiler;
+namespace Massive\Bundle\BuildBundle\Tests\DependencyInjection\Compiler;
 
-use MassiveArt\Bundle\BuildBundle\DependencyInjection\Compiler\BuilderPass;
+use Massive\Bundle\BuildBundle\DependencyInjection\Compiler\BuilderPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

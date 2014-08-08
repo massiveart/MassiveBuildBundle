@@ -1,6 +1,6 @@
 <?php
 
-namespace MassiveArt\Bundle\BuildBundle\Build;
+namespace Massive\Bundle\BuildBundle\Build;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
