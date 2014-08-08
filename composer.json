@@ -1,13 +1,14 @@
 {
-    "name": "massiveart/build-bundle",
-    "description": "Build Bundle",
-    "license": "MIT",
+    "name": "massive/build-bundle",
+    "description": "Massive Art Build Bundle",
+    "homepage": "https://github.com/massiveart/MassiveBuildBundle",
     "authors": [
         {
             "name": "Daniel Leech",
             "email": "daniel.leech@massiveart.com"
         }
     ],
+    "license": "MIT",
     "minimum-stability": "dev",
     "require": {
         "symfony/console": "~2.4",
