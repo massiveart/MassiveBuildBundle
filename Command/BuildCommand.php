@@ -41,6 +41,29 @@ class BuildCommand extends Command
     public function configure()
     {
         $this->setName('massive:build');
+        $this->setDescription('Execute build or build targets');
+        $this->setHelp(<<<EOT
+The <info>%command.full_name%</info> launches a specific build target if specified or the 
+entire build if no arguments are given:
+
+    <info>$ php app/console %command.full_name%</info>
+
+Launch a specific target:
+
+    <info>$ php app/console %command.full_name% mytarget</info>
+
+If you want to see which targets are available, use the <comment>--nobuild</comment> option:
+
+    <info>$ php app/console %command.full_name% --nobuild</info>
+
+By default if you specify a specific target, the build system will build any dependencies
+it has, to disable this use the <comment>--nodeps</comment> option.
+
+    <info>$ php app/console %command.full_name% --nodeps</info>
+EOT
+        );
+
+
         $this->addArgument('target', InputArgument::OPTIONAL, 'Build the specified target', null);
         $this->addOption('nodeps', 'D', InputOption::VALUE_NONE, 'Ignore dependencies');
         $this->addOption('nobuild', null, InputOption::VALUE_NONE, 'Do not build, only list the targets');

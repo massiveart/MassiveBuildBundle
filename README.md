@@ -13,8 +13,11 @@ depend on other targets.
 The aim of this bundle is to provide an extensible, decoupled, way of building
 software project environments, especially in a development context.
 
-This tool is not mean to replace Make or Ant or Phing. The bundle should only
-be used to execute build steps which are contained in the client application.
+If you often find youself executing several Symfony commands consecutively to
+establish your environment, then this bundle is for you.
+
+*This tool is not mean to replace Make or Ant or Phing. The bundle should only
+be used to execute build steps which are contained in the client application.*
 
 ## Creating build classes
 
@@ -127,6 +130,45 @@ class SuluBuildCommand extends BuildCommand
     }
 }
 ````
+
+## Launching the build
+
+You can launch all the builders with the following command:
+
+````bash
+$ php app/console massive:build
+````
+
+Launch a specific target:
+
+````bash
+$ php app/console massive:build mytarget
+````
+
+If you want to see which targets are available, use the <comment>--nobuild</comment> option:
+
+````bash
+$ php app/console massive:build --nobuild
+Build Targets
+=============
+
++---+----------+--------------------+
+| # | Builder  | Deps               |
++---+----------+--------------------+
+| 0 | database |                    |
+| 1 | phpcr    | database           |
+| 2 | fixtures | database           |
+| 3 | user     | database, fixtures |
++---+----------+--------------------+
+````
+
+By default if you specify a specific target, the build system will build any dependencies
+it has, to disable this use the `--nodeps` option.
+
+````bash
+$ php app/console massive:build --nodeps
+````
+
 
 ## Requirements
 
