@@ -128,6 +128,34 @@ class SuluBuildCommand extends BuildCommand
 }
 ````
 
+## Launching the build
+
+You can launch all the builders with the following command:
+
+````bash
+$ php app/console massive:build
+````
+
+Launch a specific target:
+
+````bash
+$ php app/console %command.full_name% mytarget
+````
+
+If you want to see which targets are available, use the <comment>--nobuild</comment> option:
+
+````bash
+$ php app/console %command.full_name% --nobuild
+````
+
+By default if you specify a specific target, the build system will build any dependencies
+it has, to disable this use the `--nodeps` option.
+
+````bash
+$ php app/console %command.full_name% --nodeps
+````
+
+
 ## Requirements
 
 * Symfony: 2.4+
