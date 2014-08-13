@@ -9,7 +9,6 @@
         }
     ],
     "license": "MIT",
-    "minimum-stability": "dev",
     "require": {
         "symfony/console": "~2.4",
         "symfony/framework-bundle": "~2.4"
