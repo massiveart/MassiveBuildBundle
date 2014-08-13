@@ -5,7 +5,7 @@ namespace Massive\Bundle\BuildBundle\Tests\Build;
 use Prophecy\PhpUnit\ProphecyTestCase;
 use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 
-class BuilderRegistryTest extends ProphecyTestCase
+class BuildRegistryTest extends ProphecyTestCase
 {
     public function setUp()
     {
@@ -48,6 +48,15 @@ class BuilderRegistryTest extends ProphecyTestCase
         $builder1 = $this->createBuilder('builder1');
         $this->buildRegistry->addBuilder($builder1->reveal());
         $this->buildRegistry->addBuilder($builder1->reveal());
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage non-existent
+     */
+    public function testGetBuilderNotExistent()
+    {
+        $this->buildRegistry->getBuilder('non-existent');
     }
 
     /**
@@ -95,7 +104,6 @@ class BuilderRegistryTest extends ProphecyTestCase
         $this->buildRegistry->addBuilder($this->createBuilder('builder2')->reveal());
         $this->buildRegistry->addBuilder($this->createBuilder('builder3', array('builder1'))->reveal());
 
-        
         $builders = $this->buildRegistry->getBuilders('builder3');
 
         $builderNames = array();

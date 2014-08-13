@@ -5,7 +5,7 @@ namespace Massive\Bundle\BuildBundle\Tests\DependencyInjection;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Massive\Bundle\BuildBundle\DependencyInjection\MassiveBuildExtension;
 
-class MassiveBuildExtensionTest extends AbstractExtensionTestCase
+class MassiveArtBuildExtensionTest extends AbstractExtensionTestCase
 {
     protected function getContainerExtensions()
     {

@@ -19,22 +19,39 @@ class BuildCommandTest extends ProphecyTestCase
         $this->container = $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface');
 
         $this->builder1 = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuilderInterface');
-        $this->builder1->getName()->willReturn('Builder 1');
         $this->builder2 = $this->prophesize('Massive\Bundle\BuildBundle\Tests\Command\TestContainerAwareBuilder');
-        $this->builder2->getName()->willReturn('Builder 2');
+
+        $this->setupBuilder($this->builder1, 'Builder 1', array());
+        $this->setupBuilder($this->builder2, 'Builder 2', array());
 
         $this->command = new BuildCommand(
             $this->buildRegistry->reveal(),
             $this->container->reveal()
         );
+        $this->command->addOption('verbose');
+        $this->command->addOption('no-interaction');
 
         $this->tester = new CommandTester($this->command);
+    }
+
+    protected function execute(array $input, $options)
+    {
+        return $this->tester->execute(array_merge(array(
+            '--verbose' => true,
+            '--no-interaction' => true
+        ), $input), $options);
+    }
+
+    protected function setupBuilder($builder, $title, $dependencies)
+    {
+        $builder->getName()->willReturn($title);
+        $builder->getDependencies()->willReturn($dependencies);
     }
 
     public function testBuildNoTargetNoBuilders()
     {
         $this->buildRegistry->getBuilders(null)->willReturn(array());
-        $res = $this->tester->execute(array(), array());
+        $res = $this->execute(array(), array());
         $this->assertEquals(0, $res);
     }
 
@@ -46,18 +63,15 @@ class BuildCommandTest extends ProphecyTestCase
         ));
 
         $this->builder2->setContainer($this->container)->shouldBeCalled();
+        $this->builder1->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\BuilderContext'))
+            ->shouldBeCalled();
+        $this->builder2->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\BuilderContext'))
+            ->shouldBeCalled();
 
-        $this->builder1->build(
-            Argument::type('Symfony\Component\Console\Input\InputInterface'),
-            Argument::type('Symfony\Component\Console\Output\OutputInterface')
-        )->shouldBeCalled();
-        $this->builder2->build(
-            Argument::type('Symfony\Component\Console\Input\InputInterface'),
-            Argument::type('Symfony\Component\Console\Output\OutputInterface')
-        )->shouldBeCalled();
+        $this->builder1->build()->shouldBeCalled();
+        $this->builder2->build()->shouldBeCalled();
 
-
-        $res = $this->tester->execute(array(), array());
+        $res = $this->execute(array(), array());
         $this->assertEquals(0, $res);
     }
 }

@@ -6,7 +6,6 @@
 
     <parameters>
         <parameter key="massive_build.build.registry.class">Massive\Bundle\BuildBundle\Build\BuildRegistry</parameter>
-        <parameter key="massive_build.command.build.class">Massive\Bundle\BuildBundle\Command\BuildCommand</parameter>
     </parameters>
 
     <services>

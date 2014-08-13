@@ -19,10 +19,10 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('massive_art_build');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('command_class')->defaultValue('Massive\Bundle\BuildBundle\Command\BuildCommand')->end()
+            ->end();
 
         return $treeBuilder;
     }

@@ -19,7 +19,6 @@ class BuilderPass implements CompilerPassInterface
             return;
         }
 
-
         $buildRegistry = $container->getDefinition('massive_build.build.registry');
         $ids = $container->findTaggedServiceIds('massive_build.builder');
 

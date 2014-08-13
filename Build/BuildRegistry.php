@@ -2,8 +2,6 @@
 
 namespace Massive\Bundle\BuildBundle\Build;
 
-use Massive\Bundle\BuildBundle\Build\BuilderInterface;
-
 class BuildRegistry
 {
     protected $builders = array();
@@ -17,6 +15,17 @@ class BuildRegistry
         }
 
         $this->builders[$builder->getName()] = $builder;
+    }
+
+    public function getBuilder($name)
+    {
+        if (!isset($this->builders[$name])) {
+            throw new \RuntimeException(sprintf(
+                'Trying to get non-existent builder "%s"', $name
+            ));
+        }
+
+        return $this->builders[$name];
     }
 
     public function getBuilders($target = null)
@@ -55,7 +64,7 @@ class BuildRegistry
     }
 
     /**
-     * Algorithim heavily influenced by: 
+     * Algorithim heavily influenced by:
      * https://github.com/doctrine/data-fixtures/blob/master/lib/Doctrine/Common/DataFixtures/Loader.php
      */
     protected function resolveDependencies($builders)
@@ -96,7 +105,7 @@ class BuildRegistry
                     $builderSequence[$builderName] = $sequence++;
                 }
             }
-            
+
             $lastCount = $count;
         }
 
@@ -105,7 +114,6 @@ class BuildRegistry
                 'There is a circular refernece in the builder chain.'
             ));
         }
-
 
         asort($builderSequence);
         $orderedBuilders = array();
