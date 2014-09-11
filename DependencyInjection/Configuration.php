@@ -22,6 +22,19 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('command_class')->defaultValue('Massive\Bundle\BuildBundle\Command\BuildCommand')->end()
+                ->arrayNode('targets')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('dependencies')
+                                ->useAttributeAsKey('key')
+                                ->prototype('array')
+                                    ->prototype('scalar')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
