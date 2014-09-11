@@ -83,11 +83,6 @@ class BuildRegistryTest extends ProphecyTestCase
         $this->buildRegistry->addBuilder($b3->reveal());
         $this->buildRegistry->addBuilder($b4->reveal());
 
-        $b1->getDependencies()->willReturn(array('builder3', 'builder4'));
-        $b2->getDependencies()->willReturn(array());
-        $b3->getDependencies()->willReturn(array('builder4'));
-        $b4->getDependencies()->willReturn(array());
-
         $builders = $this->buildRegistry->getBuilders();
 
         $builderNames = array();
@@ -103,14 +98,15 @@ class BuildRegistryTest extends ProphecyTestCase
         $this->buildRegistry->addBuilder($this->createBuilder('builder1')->reveal());
         $this->buildRegistry->addBuilder($this->createBuilder('builder2')->reveal());
         $this->buildRegistry->addBuilder($this->createBuilder('builder3', array('builder1'))->reveal());
+        $this->buildRegistry->addBuilder($this->createBuilder('builder4', array('builder3'))->reveal());
 
-        $builders = $this->buildRegistry->getBuilders('builder3');
+        $builders = $this->buildRegistry->getBuilders('builder4');
 
         $builderNames = array();
         foreach ($builders as $builder) {
             $builderNames[] = $builder->getName();
         }
 
-        $this->assertEquals(array('builder1', 'builder3'), $builderNames);
+        $this->assertEquals(array('builder1', 'builder3', 'builder4'), $builderNames);
     }
 }
