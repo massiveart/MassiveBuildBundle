@@ -40,7 +40,7 @@ class BuildRegistry
         return $orderedBuilders;
     }
 
-    protected function getBuildersForTarget($target, $list = array(), $resolved = array())
+    protected function getBuildersForTarget($target, &$list = array(), &$resolved = array())
     {
         $builders = array();
         $builder = $this->builders[$target];
@@ -49,11 +49,7 @@ class BuildRegistry
         foreach ($dependencies as $dependency) {
             $list[$dependency] = $this->builders[$dependency];
             if (!isset($resolved[$dependency])) {
-                $depBuilders = $this->getBuildersForTarget($dependency, $list, $resolved);
-
-                foreach ($depBuilders as $depBuilder) {
-                    $builders[] = $depBuilder;
-                }
+                $this->getBuildersForTarget($dependency, $list, $resolved);
             }
         }
 
