@@ -21,7 +21,7 @@ class BuildCommandTest extends ProphecyTestCase
         $this->builder1 = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuilderInterface');
         $this->builder2 = $this->prophesize('Massive\Bundle\BuildBundle\Tests\Command\TestContainerAwareBuilder');
 
-        $this->setupBuilder($this->builder1, 'Builder 1', array());
+        $this->setupBuilder($this->builder1, 'Builder 1', array('Builder 2'));
         $this->setupBuilder($this->builder2, 'Builder 2', array());
 
         $this->command = new BuildCommand(
@@ -55,9 +55,9 @@ class BuildCommandTest extends ProphecyTestCase
         $this->assertEquals(0, $res);
     }
 
-    public function testBuildNoTarget()
+    public function testBuildTarget()
     {
-        $this->buildRegistry->getBuilders(null)->willReturn(array(
+        $this->buildRegistry->getBuilders('Builder 1')->willReturn(array(
             $this->builder1->reveal(),
             $this->builder2->reveal()
         ));
@@ -71,8 +71,21 @@ class BuildCommandTest extends ProphecyTestCase
         $this->builder1->build()->shouldBeCalled();
         $this->builder2->build()->shouldBeCalled();
 
-        $res = $this->execute(array(), array());
+        $res = $this->execute(array('target' => 'Builder 1'), array());
         $this->assertEquals(0, $res);
+    }
+
+    public function testBuildNotTarget()
+    {
+        $this->buildRegistry->getBuilders(null)->willReturn(array(
+            $this->builder1->reveal(),
+            $this->builder2->reveal()
+        ));
+
+        $this->execute(array(), array());
+        $display = $this->tester->getDisplay();
+        $this->assertContains('Builder 1', $display);
+        $this->assertContains('Builder 2', $display);
     }
 }
 
