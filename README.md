@@ -6,9 +6,12 @@ Massive Build Bundle
 The Massive Build Bundle provides a `massive:build` command which runs build
 targets.
 
-Targets are effectively classes which execute arbitary code, and are
-registred in the dependency injection container via. tags. Targets can
-depend on other targets.
+Targets are classes which execute arbitary code, and are registred in the
+dependency injection container via. tags. Targets can depend on other targets.
+
+Virtual targets can be created in you applications configuration file. These 
+virtual targets simply declare depenencies, enabling you to configure custom
+build processes.
 
 The aim of this bundle is to provide an extensible, decoupled, way of building
 software project environments, especially in a development context.
@@ -18,6 +21,33 @@ establish your environment, then this bundle is for you.
 
 *This tool is not mean to replace Make or Ant or Phing. The bundle should only
 be used to execute build steps which are contained in the client application.*
+
+## Defining targets
+
+You can define new build targets in you applications configuration file:
+
+````
+massive_build:
+    targets:
+        main:
+            target_one: ~
+            target_two: ~
+            target_three: ~
+        quick:
+            target_one: ~
+````
+
+The above will allow you to execute:
+
+````
+$ php app/console massive:build main
+````
+
+and:
+
+````
+$ php app/console massive:build quick
+````
 
 ## Creating build classes
 
