@@ -2,10 +2,18 @@
 
 namespace Massive\Bundle\BuildBundle\Build;
 
+use Doctrine\Common\Annotations\Annotation\Target;
+
 class BuildRegistry
 {
     protected $builders = array();
+    protected $targets = array();
 
+    /**
+     * Register a builder
+     *
+     * @param BuilderInterface
+     */
     public function addBuilder(BuilderInterface $builder)
     {
         if (isset($this->builders[$builder->getName()])) {
@@ -17,6 +25,30 @@ class BuildRegistry
         $this->builders[$builder->getName()] = $builder;
     }
 
+    /**
+     * Register a target
+     *
+     * @param Target
+     */
+    public function addTarget(Target $target)
+    {
+        if (isset($this->targets[$target->getName()])) {
+            throw new \RuntimeException(sprintf(
+                'A target with name "%s" has already been added', $target->getName()
+            ));
+        }
+
+        $this->targets[$target->getName()] = $target;
+    }
+
+    /**
+     * Return the named builder
+     *
+     * @param string
+     *
+     * @return BuilderInterface
+     * @throws RuntimeException
+     */
     public function getBuilder($name)
     {
         if (!isset($this->builders[$name])) {
@@ -28,32 +60,67 @@ class BuildRegistry
         return $this->builders[$name];
     }
 
-    public function getBuilders($target = null)
+    /**
+     * Return the named target
+     *
+     * @param string
+     *
+     * @return Target
+     * @throws RuntimeException
+     */
+    public function getTarget($name)
     {
-        $builders = $this->builders;
-
-        if (null !== $target) {
-            $builders = $this->getBuildersForTarget($target);
+        if (!isset($this->targets[$name])) {
+            throw new \RuntimeException(sprintf(
+                'Trying to get non-existent target "%s"', $name
+            ));
         }
-        $orderedBuilders = $this->resolveDependencies($builders);
 
-        return $orderedBuilders;
+        return $this->targets[$name];
     }
 
-    protected function getBuildersForTarget($target, &$list = array(), &$resolved = array())
+    /**
+     * Return the given target and all of its dependencies
+     * in the correct order
+     *
+     * @param string $targetName
+     *
+     * @return Target[]
+     * @throws InvalidArgumentException
+     */
+    public function getTargets($targetName)
     {
-        $builders = array();
-        $builder = $this->builders[$target];
-        $dependencies = $builder->getDependencies();
+        $target = $this->getTarget($targetName);
 
-        foreach ($dependencies as $dependency) {
-            $list[$dependency] = $this->builders[$dependency];
+        $targets = $this->getTargetsForTarget($target);
+        $targets = $this->resolveTargets($targets);
+
+        return $targets;
+    }
+
+    /**
+     * Recursively seek out all the targets and return them
+     * 
+     * @param Target $target
+     * @param array $list
+     * @param array $resolved
+     *
+     * @return Target[]
+     */
+    private function getTargetsForTarget(Target $target, &$list = array(), &$resolved = array())
+    {
+        $targets = array();
+        $target = $this->getTarget($target->getName());
+        $deps = $target->getDeps();
+
+        foreach ($deps as $dep) {
+            $list[$dep] = $this->getTarget($dep);
             if (!isset($resolved[$dependency])) {
-                $this->getBuildersForTarget($dependency, $list, $resolved);
+                $this->getTargetsForTarget($dependency, $list, $resolved);
             }
         }
 
-        $list[$target] = $builder;
+        $list[$targetName] = $target;
         $resolved[$target] = true;
 
         return array_values($list);
@@ -63,42 +130,41 @@ class BuildRegistry
      * Algorithim heavily influenced by:
      * https://github.com/doctrine/data-fixtures/blob/master/lib/Doctrine/Common/DataFixtures/Loader.php
      */
-    protected function resolveDependencies($builders)
+    private function resolveTargets($builders)
     {
-        $builderSequence = array();
+        $targetSequence = array();
 
-        foreach ($builders as $builder) {
-            $dependencies = $builder->getDependencies();
+        foreach ($targets as $target) {
+            $dependencies = $target->getDeps();
 
             if (!$dependencies) {
-                $builderSequence[$builder->getName()] = 0;
+                $targetSequence[$target->getName()] = 0;
                 continue;
             }
 
             foreach ($dependencies as $dependency) {
-                if (!isset($this->builders[$dependency])) {
+                if (!isset($this->targets[$dependency])) {
                     throw new \RuntimeException(sprintf(
-                        'Builder "%s" has dependency on unknown builder "%s"',
-                        $builder->getName(), $dependency
+                        'Target "%s" has dependency on unknown target "%s"',
+                        $target->getName(), $dependency
                     ));
-
                 }
             }
 
-            $builderSequence[$builder->getName()] = -1;
+            $targetSequence[$target->getName()] = -1;
         }
 
         $sequence = 1;
         $lastCount = -1;
 
-        while (($count = count($unsequencedBuilders = $this->getUnsequencedBuilders($builderSequence))) > 0 && $count !== $lastCount) {
-            foreach ($unsequencedBuilders as $key => $builderName) {
-                $builder = $this->builders[$builderName];
-                $dependencies = $builder->getDependencies();
-                $unsequencedDependencies = $this->getUnsequencedBuilders($builderSequence, $dependencies);
+        while (($count = count($unsequencedTargets = $this->getUnsequencedTargets($targetSequence))) > 0 && $count !== $lastCount) {
+            foreach ($unsequencedTargets as $key => $targetName) {
+                $target = $this->targets[$targetName];
+                $dependencies = $target->getDeps();
+                $unsequencedDeps = $this->getUnsequencedTargets($targetSequence, $dependencies);
 
-                if (count($unsequencedDependencies) === 0) {
-                    $builderSequence[$builderName] = $sequence++;
+                if (count($unsequencedDeps) === 0) {
+                    $targetSequence[$targetName] = $sequence++;
                 }
             }
 
@@ -107,23 +173,23 @@ class BuildRegistry
 
         if ($count > 0) {
             throw new \RuntimeException(sprintf(
-                'There is a circular refernece in the builder chain.'
+                'There is a circular refernece in the target chain.'
             ));
         }
 
-        asort($builderSequence);
-        $orderedBuilders = array();
+        asort($targetSequence);
+        $orderedTargets = array();
 
-        foreach (array_keys($builderSequence) as $builderName) {
-            $orderedBuilders[] = $this->builders[$builderName];
+        foreach (array_keys($targetSequence) as $targetName) {
+            $orderedTargets[] = $this->targets[$targetName];
         }
 
-        return $orderedBuilders;
+        return $orderedTargets;
     }
 
-    protected function getUnsequencedBuilders($sequences, $dependencies = null)
+    private function getUnsequencedTargets($sequences, $dependencies = null)
     {
-        $unsequencedBuilders = array();
+        $unsequencedTargets = array();
 
         if (null === $dependencies) {
             $dependencies = array_keys($sequences);
@@ -131,10 +197,10 @@ class BuildRegistry
 
         foreach ($dependencies  as $dependency) {
             if ($sequences[$dependency] === -1) {
-                $unsequencedBuilders[] = $dependency;
+                $unsequencedTargets[] = $dependency;
             }
         }
 
-        return $unsequencedBuilders;
+        return $unsequencedTargets;
     }
 }
