@@ -2,7 +2,6 @@
 
 namespace Massive\Bundle\BuildBundle\Build;
 
-use Massive\Bundle\BuildBundle\Build\BuilderConfigInterface;
 use Massive\Bundle\BuildBundle\Build\BuilderConfigContext;
 
 /**
@@ -15,7 +14,7 @@ use Massive\Bundle\BuildBundle\Build\BuilderConfigContext;
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
-class Target implements BuilderConfigInterface
+class Target
 {
     protected $name;
     protected $builderConfigs = array();

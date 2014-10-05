@@ -74,14 +74,16 @@ EOT
         $target = $input->getArgument('target');
 
         if ($input->getOption('nodeps')) {
-            $builders = array($this->buildRegistry->getBuilder($target));
+            $targets = array($this->buildRegistry->getTarget($target));
+        } elseif (null === $target) {
+            $targets = $this->buildRegistry->getAllTargets();
         } else {
-            $builders = $this->buildRegistry->getBuilders($target);
+            $targets = $this->buildRegistry->getTargets($target);
         }
 
         $start = microtime(true);
 
-        $this->renderTargets($builders);
+        $this->renderTargets($targets);
 
         if ($target === null) {
             return 0;
@@ -98,7 +100,7 @@ EOT
         }
 
         $this->output->writeln('');
-        $this->runBuilders($builders);
+        // $this->runBuilders($targets);
 
         $end = microtime(true);
 
@@ -108,20 +110,20 @@ EOT
     /**
      * Render the target list
      *
-     * @param BuilderInterface[] $builders
+     * @param BuilderInterface[] $targets
      */
-    protected function renderTargets($builders)
+    protected function renderTargets($targets)
     {
         $this->writeTitle('Build Targets');
 
         $table = new TableHelper();
         $table->setHeaders(array('#', 'Builder', 'Deps'));
 
-        foreach ($builders as $i => $builder) {
+        foreach ($targets as $i => $target) {
             $table->addRow(array(
                 $i,
-                $builder->getName(),
-                implode(', ', $builder->getDependencies()
+                $target->getName(),
+                implode(', ', $target->getDeps()
             )));
         }
 
@@ -139,32 +141,32 @@ EOT
     }
 
     /**
-     * Execute the builders
+     * Execute the targets
      *
-     * @param BuilderInterface[] $builders
+     * @param BuilderInterface[] $targets
      */
-    protected function runBuilders($builders)
+    protected function runBuilders($targets)
     {
-        $this->writeTitle('Executing builders');
+        $this->writeTitle('Executing targets');
 
-        $builderContext = new BuilderContext($this->input, $this->output, $this->getApplication());
+        $targetContext = new BuilderContext($this->input, $this->output, $this->getApplication());
 
-        foreach ($builders as $builder) {
+        foreach ($targets as $target) {
             $this->output->getFormatter()->setIndentLevel(0);
 
-            if ($builder instanceof ContainerAwareInterface) {
-                $builder->setContainer($this->container);
+            if ($target instanceof ContainerAwareInterface) {
+                $target->setContainer($this->container);
             }
 
-            $builder->setContext($builderContext);
+            $target->setContext($targetContext);
 
             $this->output->writeln(sprintf(
-                '<info>Target: </info>%s', $builder->getName()
+                '<info>Target: </info>%s', $target->getName()
             ));
             $this->output->writeln('');
 
             $this->output->getFormatter()->setIndentLevel(1);
-            $builder->build();
+            $target->build();
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace Massive\Bundle\BuildBundle\Build;
 
-use Doctrine\Common\Annotations\Annotation\Target;
+use Massive\Bundle\BuildBundle\Build\Target;
 
 class BuildRegistry
 {
@@ -99,6 +99,17 @@ class BuildRegistry
     }
 
     /**
+     * Return all targets
+     *
+     * @return Target[]
+     */
+    public function getAllTargets()
+    {
+        return $this->targets;
+    }
+
+
+    /**
      * Recursively seek out all the targets and return them
      * 
      * @param Target $target
@@ -110,18 +121,19 @@ class BuildRegistry
     private function getTargetsForTarget(Target $target, &$list = array(), &$resolved = array())
     {
         $targets = array();
-        $target = $this->getTarget($target->getName());
+        $targetName = $target->getName();
+        $target = $this->getTarget($targetName);
         $deps = $target->getDeps();
 
         foreach ($deps as $dep) {
-            $list[$dep] = $this->getTarget($dep);
-            if (!isset($resolved[$dependency])) {
-                $this->getTargetsForTarget($dependency, $list, $resolved);
+            $list[$dep] = $targetDep = $this->getTarget($dep);
+            if (!isset($resolved[$dep])) {
+                $this->getTargetsForTarget($targetDep, $list, $resolved);
             }
         }
 
         $list[$targetName] = $target;
-        $resolved[$target] = true;
+        $resolved[$targetName] = true;
 
         return array_values($list);
     }
@@ -130,7 +142,7 @@ class BuildRegistry
      * Algorithim heavily influenced by:
      * https://github.com/doctrine/data-fixtures/blob/master/lib/Doctrine/Common/DataFixtures/Loader.php
      */
-    private function resolveTargets($builders)
+    private function resolveTargets($targets)
     {
         $targetSequence = array();
 
