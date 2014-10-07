@@ -19,11 +19,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
                 'command_class' => 'Foo\Bar',
                 'targets' => array(
                     'all' => array(
-                        'dependencies' => array(
-                            'foo' => array(), 
-                            'bar' => array(), 
-                            'baz' => array(),
-                        ),
+                        'dependencies' => array('foo', 'bar', 'baz')
                     ),
                 ),
             ),
@@ -31,11 +27,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
                 'command_class' => 'Foo\Bar',
                 'targets' => array(
                     'all' => array(
-                        'dependencies' => array(
-                            'foo' => array(), 
-                            'bar' => array(),
-                            'baz' => array(),
-                        )
+                        'dependencies' => array('foo', 'bar', 'baz')
                     ),
                 ),
             )
@@ -48,11 +40,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
             array(
                 'targets' => array(
                     'all' => array(
-                        'dependencies' => array(
-                            'foo' => null, 
-                            'bar' => null, 
-                            'baz' => null,
-                        ),
+                        'dependencies' => array('foo', 'bar', 'baz')
                     ),
                 ),
             ),
@@ -60,11 +48,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
                 'command_class' => 'Massive\Bundle\BuildBundle\Command\BuildCommand',
                 'targets' => array(
                     'all' => array(
-                        'dependencies' => array(
-                            'foo' => array(), 
-                            'bar' => array(),
-                            'baz' => array(),
-                        )
+                        'dependencies' => array('foo', 'bar', 'baz')
                     ),
                 ),
             )

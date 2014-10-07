@@ -123,9 +123,9 @@ class BuildRegistry
         $targets = array();
         $targetName = $target->getName();
         $target = $this->getTarget($targetName);
-        $deps = $target->getDeps();
+        $dependencies = $target->getDependencies();
 
-        foreach ($deps as $dep) {
+        foreach ($dependencies as $dep) {
             $list[$dep] = $targetDep = $this->getTarget($dep);
             if (!isset($resolved[$dep])) {
                 $this->getTargetsForTarget($targetDep, $list, $resolved);
@@ -147,7 +147,7 @@ class BuildRegistry
         $targetSequence = array();
 
         foreach ($targets as $target) {
-            $dependencies = $target->getDeps();
+            $dependencies = $target->getDependencies();
 
             if (!$dependencies) {
                 $targetSequence[$target->getName()] = 0;
@@ -172,10 +172,10 @@ class BuildRegistry
         while (($count = count($unsequencedTargets = $this->getUnsequencedTargets($targetSequence))) > 0 && $count !== $lastCount) {
             foreach ($unsequencedTargets as $key => $targetName) {
                 $target = $this->targets[$targetName];
-                $dependencies = $target->getDeps();
-                $unsequencedDeps = $this->getUnsequencedTargets($targetSequence, $dependencies);
+                $dependencies = $target->getDependencies();
+                $unsequencedDependencies = $this->getUnsequencedTargets($targetSequence, $dependencies);
 
-                if (count($unsequencedDeps) === 0) {
+                if (count($unsequencedDependencies) === 0) {
                     $targetSequence[$targetName] = $sequence++;
                 }
             }

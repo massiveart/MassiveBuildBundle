@@ -22,13 +22,12 @@ class BuildRegistryTest extends ProphecyTestCase
         return $builder;
     }
 
-    protected function createTarget($name, $buildConfigs = array(), $deps = array(), $softDeps = array())
+    protected function createTarget($name, $buildConfigs = array(), $dependencies = array())
     {
         $target = $this->prophesize('Massive\Bundle\BuildBundle\Build\Target');
         $target->getName()->willReturn($name);
         $target->getBuilderConfigs()->willReturn($buildConfigs);
-        $target->getDeps()->willReturn($deps);
-        $target->getSoftDeps()->willReturn($softDeps);
+        $target->getDependencies()->willReturn($dependencies);
 
         return $target;
     }
@@ -80,7 +79,7 @@ class BuildRegistryTest extends ProphecyTestCase
     public function testTargetDependenciesMissingDep()
     {
         $target1 = $this->createTarget('target1');
-        $target1->getDeps()->willReturn(array('foo'));
+        $target1->getDependencies()->willReturn(array('foo'));
         $this->buildRegistry->addTarget($target1->reveal());
         $this->buildRegistry->getTargets('target1');
     }

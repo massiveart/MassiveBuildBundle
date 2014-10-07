@@ -50,7 +50,6 @@ class BuildCommandTest extends ProphecyTestCase
             $this->target2->reveal()
         ));
 
-        $this->target2->setContainer($this->container)->shouldBeCalled();
         $this->target1->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\TargetContext'))
             ->shouldBeCalled();
         $this->target2->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\TargetContext'))
@@ -84,10 +83,10 @@ class BuildCommandTest extends ProphecyTestCase
         ), $input), $options);
     }
 
-    protected function setupTarget($target, $title, $deps)
+    protected function setupTarget($target, $title, $dependencies)
     {
         $target->getName()->willReturn($title);
-        $target->getDeps()->willReturn($deps);
+        $target->getDependencies()->willReturn($dependencies);
     }
 }
 

@@ -26,14 +26,14 @@ class MassiveBuildExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        $registry = $container->getDefinition('massive_build.build.registry');
 
         foreach ($config['targets'] as $target => $config) {
             $dependencies = array_keys($config['dependencies']);
-            $targetDefinition = new Definition('Massive\Bundle\BuildBundle\Builder\VirtualBuilder', array(
-                $target, $dependencies
+            $targetDefinition = new Definition('Massive\Bundle\BuildBundle\Build\Target', array(
+                $target, array(), array(), array(), array()
             ));
-            $targetDefinition->addTag('massive_build.builder');
-            $container->setDefinition('massive_build.builder.virtual.' . $target, $targetDefinition);
+            $registry->addMethodCall('addTarget', array($targetDefinition));
         }
     }
 }

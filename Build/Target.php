@@ -18,16 +18,14 @@ class Target
 {
     protected $name;
     protected $builderConfigs = array();
-    protected $softDeps = array();
-    protected $deps = array();
+    protected $dependencies = array();
     protected $optionReplacements = array();
 
-    public function __construct($name, $builderConfigs, $softDeps, $deps, $optionReplacements)
+    public function __construct($name, $builderConfigs, $dependencies, $optionReplacements)
     {
         $this->name = $name;
         $this->builderConfigs = $builderConfigs;
-        $this->softDeps = $softDeps;
-        $this->deps = $deps;
+        $this->dependencies = $dependencies;
         $this->optionReplacements = $optionReplacements;
     }
 
@@ -39,17 +37,6 @@ class Target
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Return list of soft deps. If the dependency is scheduled to be executed,
-     * ensure that this target is executed after.
-     *
-     * @return array
-     */
-    public function getSoftDeps() 
-    {
-        return $this->softDeps;
     }
 
     /**
@@ -71,12 +58,12 @@ class Target
     }
 
     /**
-     * Return the deps for this builderConfig
+     * Return the dependencies for this builderConfig
      *
      * @return array
      */
-    public function getDeps()
+    public function getDependencies()
     {
-        return $this->deps;
+        return $this->dependencies;
     }
 }
