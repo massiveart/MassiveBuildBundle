@@ -18,11 +18,13 @@ class BuildCommandTest extends ProphecyTestCase
         $this->buildRegistry = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuildRegistry');
         $this->container = $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $this->builder1 = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuilderInterface');
-        $this->builder2 = $this->prophesize('Massive\Bundle\BuildBundle\Tests\Command\TestContainerAwareBuilder');
+        $this->target1 = $this->prophesize('Massive\Bundle\BuildBundle\Build\Target');
+        $this->target2 = $this->prophesize('Massive\Bundle\BuildBundle\Build\Target');
 
-        $this->setupBuilder($this->builder1, 'Builder 1', array('Builder 2'));
-        $this->setupBuilder($this->builder2, 'Builder 2', array());
+        $this->builder1 = $this->prophesize('Massive\Bundle\BuildBundle\Tests\Command\TestContainerAwareTarget');
+
+        $this->setupTarget($this->target1, 'Target 1', array('Target 2'));
+        $this->setupTarget($this->target2, 'Target 2', array());
 
         $this->command = new BuildCommand(
             $this->buildRegistry->reveal(),
@@ -34,6 +36,45 @@ class BuildCommandTest extends ProphecyTestCase
         $this->tester = new CommandTester($this->command);
     }
 
+    public function testBuildNoTargetNoTargets()
+    {
+        $this->buildRegistry->getAllTargets()->willReturn(array());
+        $res = $this->execute(array(), array());
+        $this->assertEquals(0, $res);
+    }
+
+    public function testBuildTarget()
+    {
+        $this->buildRegistry->getTargets('Target 1')->willReturn(array(
+            $this->target1->reveal(),
+            $this->target2->reveal()
+        ));
+
+        $this->target1->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\TargetContext'))
+            ->shouldBeCalled();
+        $this->target2->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\TargetContext'))
+            ->shouldBeCalled();
+
+        $this->target1->build()->shouldBeCalled();
+        $this->target2->build()->shouldBeCalled();
+
+        $res = $this->execute(array('target' => 'Target 1'), array());
+        $this->assertEquals(0, $res);
+    }
+
+    public function testBuildNotTarget()
+    {
+        $this->buildRegistry->getTargets(null)->willReturn(array(
+            $this->target1->reveal(),
+            $this->target2->reveal()
+        ));
+
+        $this->execute(array(), array());
+        $display = $this->tester->getDisplay();
+        $this->assertContains('Target 1', $display);
+        $this->assertContains('Target 2', $display);
+    }
+
     protected function execute(array $input, $options)
     {
         return $this->tester->execute(array_merge(array(
@@ -42,53 +83,13 @@ class BuildCommandTest extends ProphecyTestCase
         ), $input), $options);
     }
 
-    protected function setupBuilder($builder, $title, $dependencies)
+    protected function setupTarget($target, $title, $dependencies)
     {
-        $builder->getName()->willReturn($title);
-        $builder->getDependencies()->willReturn($dependencies);
-    }
-
-    public function testBuildNoTargetNoBuilders()
-    {
-        $this->buildRegistry->getBuilders(null)->willReturn(array());
-        $res = $this->execute(array(), array());
-        $this->assertEquals(0, $res);
-    }
-
-    public function testBuildTarget()
-    {
-        $this->buildRegistry->getBuilders('Builder 1')->willReturn(array(
-            $this->builder1->reveal(),
-            $this->builder2->reveal()
-        ));
-
-        $this->builder2->setContainer($this->container)->shouldBeCalled();
-        $this->builder1->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\BuilderContext'))
-            ->shouldBeCalled();
-        $this->builder2->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\BuilderContext'))
-            ->shouldBeCalled();
-
-        $this->builder1->build()->shouldBeCalled();
-        $this->builder2->build()->shouldBeCalled();
-
-        $res = $this->execute(array('target' => 'Builder 1'), array());
-        $this->assertEquals(0, $res);
-    }
-
-    public function testBuildNotTarget()
-    {
-        $this->buildRegistry->getBuilders(null)->willReturn(array(
-            $this->builder1->reveal(),
-            $this->builder2->reveal()
-        ));
-
-        $this->execute(array(), array());
-        $display = $this->tester->getDisplay();
-        $this->assertContains('Builder 1', $display);
-        $this->assertContains('Builder 2', $display);
+        $target->getName()->willReturn($title);
+        $target->getDependencies()->willReturn($dependencies);
     }
 }
 
-interface TestContainerAwareBuilder extends BuilderInterface, ContainerAwareInterface
+interface TestContainerAwareTarget extends BuilderInterface, ContainerAwareInterface
 {
 }

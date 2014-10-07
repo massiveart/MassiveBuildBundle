@@ -17,16 +17,9 @@ interface BuilderInterface
     public function getName();
 
     /**
-     * Return the dependencies for this builder
-     *
-     * @return array
-     */
-    public function getDependencies();
-
-    /**
      * Execute the build logic
      */
-    public function build();
+    public function build($options = array());
 
     /**
      * Set the builder context

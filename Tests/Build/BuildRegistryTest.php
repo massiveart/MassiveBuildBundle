@@ -14,29 +14,42 @@ class BuildRegistryTest extends ProphecyTestCase
         $this->buildRegistry = new BuildRegistry();
     }
 
-    protected function createBuilder($name, $dependencies = array())
+    protected function createBuilder($name)
     {
         $builder = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuilderInterface');
         $builder->getName()->willReturn($name);
-        $builder->getDependencies()->willReturn($dependencies);
 
         return $builder;
     }
 
+    protected function createTarget($name, $buildConfigs = array(), $dependencies = array())
+    {
+        $target = $this->prophesize('Massive\Bundle\BuildBundle\Build\Target');
+        $target->getName()->willReturn($name);
+        $target->getBuilderConfigs()->willReturn($buildConfigs);
+        $target->getDependencies()->willReturn($dependencies);
+
+        return $target;
+    }
+
+
     public function testBuildRegistryAddAndGet()
     {
-        $this->createBuilder('builder1');
-        $builders = $this->buildRegistry->getBuilders();
-        $this->assertNotNull($builders);
-        $this->assertCount(0, $builders);
-
         $builder1 = $this->createBuilder('builder1');
         $builder2 = $this->createBuilder('builder2');
 
         $this->buildRegistry->addBuilder($builder1->reveal());
         $this->buildRegistry->addBuilder($builder2->reveal());
 
-        $this->assertCount(2, $this->buildRegistry->getBuilders());
+        $this->assertSame($builder1->reveal(), $this->buildRegistry->getBuilder('builder1'));
+
+        $target1 = $this->createTarget('target1');
+        $target2 = $this->createTarget('target2');
+
+        $this->buildRegistry->addTarget($target1->reveal());
+        $this->buildRegistry->addTarget($target2->reveal());
+
+        $this->assertSame($target1->reveal(), $this->buildRegistry->getTarget('target1'));
     }
 
     /**
@@ -61,52 +74,30 @@ class BuildRegistryTest extends ProphecyTestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage unknown builder
+     * @expectedExceptionMessage non-existent target
      */
-    public function testBuilderDependenciesMissingDep()
+    public function testTargetDependenciesMissingDep()
     {
-        $builder1 = $this->createBuilder('builder1');
-        $builder1->getDependencies()->willReturn(array('foobar'));
-        $this->buildRegistry->addBuilder($builder1->reveal());
-        $this->buildRegistry->getBuilders();
+        $target1 = $this->createTarget('target1');
+        $target1->getDependencies()->willReturn(array('foo'));
+        $this->buildRegistry->addTarget($target1->reveal());
+        $this->buildRegistry->getTargets('target1');
     }
 
-    public function testBuilderDependencies()
+    public function testGetTargets()
     {
-        $b1 = $this->createBuilder('builder1', array('builder3', 'builder4'));
-        $b2 = $this->createBuilder('builder2', array());
-        $b3 = $this->createBuilder('builder3', array('builder4'));
-        $b4 = $this->createBuilder('builder4', array());
+        $this->buildRegistry->addTarget($this->createTarget('target1')->reveal());
+        $this->buildRegistry->addTarget($this->createTarget('target2')->reveal());
+        $this->buildRegistry->addTarget($this->createTarget('target3', array(), array('target1'))->reveal());
+        $this->buildRegistry->addTarget($this->createTarget('target4', array(), array('target3'))->reveal());
 
-        $this->buildRegistry->addBuilder($b1->reveal());
-        $this->buildRegistry->addBuilder($b2->reveal());
-        $this->buildRegistry->addBuilder($b3->reveal());
-        $this->buildRegistry->addBuilder($b4->reveal());
+        $targets = $this->buildRegistry->getTargets('target4');
 
-        $builders = $this->buildRegistry->getBuilders();
-
-        $builderNames = array();
-        foreach ($builders as $builder) {
-            $builderNames[] = $builder->getName();
+        $targetNames = array();
+        foreach ($targets as $target) {
+            $targetNames[] = $target->getName();
         }
 
-        $this->assertEquals(array('builder4', 'builder2', 'builder3', 'builder1'), $builderNames);
-    }
-
-    public function testGetBuildersForTarget()
-    {
-        $this->buildRegistry->addBuilder($this->createBuilder('builder1')->reveal());
-        $this->buildRegistry->addBuilder($this->createBuilder('builder2')->reveal());
-        $this->buildRegistry->addBuilder($this->createBuilder('builder3', array('builder1'))->reveal());
-        $this->buildRegistry->addBuilder($this->createBuilder('builder4', array('builder3'))->reveal());
-
-        $builders = $this->buildRegistry->getBuilders('builder4');
-
-        $builderNames = array();
-        foreach ($builders as $builder) {
-            $builderNames[] = $builder->getName();
-        }
-
-        $this->assertEquals(array('builder1', 'builder3', 'builder4'), $builderNames);
+        $this->assertEquals(array('target1', 'target3', 'target4'), $targetNames);
     }
 }

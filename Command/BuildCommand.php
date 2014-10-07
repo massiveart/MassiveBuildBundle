@@ -52,14 +52,14 @@ If you want to see which targets are available run the command without any argum
     <info>$ php app/console %command.full_name%</info>
 
 By default the build system will build any dependencies that the target
-has, to disable this use the <comment>--nodeps</comment> option.
+has, to disable this use the <comment>--nodependencies</comment> option.
 
-    <info>$ php app/console %command.full_name% --nodeps</info>
+    <info>$ php app/console %command.full_name% --nodependencies</info>
 EOT
         );
 
         $this->addArgument('target', InputArgument::OPTIONAL, 'Target to build', null);
-        $this->addOption('nodeps', 'D', InputOption::VALUE_NONE, 'Ignore dependencies');
+        $this->addOption('nodependencies', 'D', InputOption::VALUE_NONE, 'Ignore dependencies');
     }
 
     /**
@@ -73,15 +73,17 @@ EOT
 
         $target = $input->getArgument('target');
 
-        if ($input->getOption('nodeps')) {
-            $builders = array($this->buildRegistry->getBuilder($target));
+        if ($input->getOption('nodependencies')) {
+            $targets = array($this->buildRegistry->getTarget($target));
+        } elseif (null === $target) {
+            $targets = $this->buildRegistry->getAllTargets();
         } else {
-            $builders = $this->buildRegistry->getBuilders($target);
+            $targets = $this->buildRegistry->getTargets($target);
         }
 
         $start = microtime(true);
 
-        $this->renderTargets($builders);
+        $this->renderTargets($targets);
 
         if ($target === null) {
             return 0;
@@ -98,7 +100,7 @@ EOT
         }
 
         $this->output->writeln('');
-        $this->runBuilders($builders);
+        // $this->runBuilders($targets);
 
         $end = microtime(true);
 
@@ -108,20 +110,20 @@ EOT
     /**
      * Render the target list
      *
-     * @param BuilderInterface[] $builders
+     * @param BuilderInterface[] $targets
      */
-    protected function renderTargets($builders)
+    protected function renderTargets($targets)
     {
         $this->writeTitle('Build Targets');
 
         $table = new TableHelper();
-        $table->setHeaders(array('#', 'Builder', 'Deps'));
+        $table->setHeaders(array('#', 'Builder', 'Dependencies'));
 
-        foreach ($builders as $i => $builder) {
+        foreach ($targets as $i => $target) {
             $table->addRow(array(
                 $i,
-                $builder->getName(),
-                implode(', ', $builder->getDependencies()
+                $target->getName(),
+                implode(', ', $target->getDependencies()
             )));
         }
 
@@ -139,32 +141,41 @@ EOT
     }
 
     /**
-     * Execute the builders
+     * Execute the targets
      *
-     * @param BuilderInterface[] $builders
+     * @param BuilderInterface[] $targets
      */
-    protected function runBuilders($builders)
+    protected function runBuilders($targets)
     {
-        $this->writeTitle('Executing builders');
+        $this->writeTitle('Executing targets');
 
         $builderContext = new BuilderContext($this->input, $this->output, $this->getApplication());
 
-        foreach ($builders as $builder) {
+        foreach ($targets as $target) {
             $this->output->getFormatter()->setIndentLevel(0);
-
-            if ($builder instanceof ContainerAwareInterface) {
-                $builder->setContainer($this->container);
-            }
-
-            $builder->setContext($builderContext);
-
             $this->output->writeln(sprintf(
-                '<info>Target: </info>%s', $builder->getName()
+                '<info>Target: </info>%s', $target->getName()
             ));
-            $this->output->writeln('');
+            foreach ($target->getBuilders() as $builder) {
+                $this->output->getFormatter()->setIndentLevel(1);
+                $this->output->writeln(sprintf(
+                    '<info>Builder: </info>%s', $builder->getName()
+                ));
 
-            $this->output->getFormatter()->setIndentLevel(1);
-            $builder->build();
+                if ($builder instanceof ContainerAwareInterface) {
+                    $builder->setContainer($this->container);
+                }
+
+                $builder->setContext($builderContext);
+
+                $this->output->writeln(sprintf(
+                    '<info>Target: </info>%s', $target->getName()
+                ));
+                $this->output->writeln('');
+
+                $this->output->getFormatter()->setIndentLevel(1);
+                $builder->build();
+            }
         }
     }
 
