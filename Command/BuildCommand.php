@@ -45,16 +45,16 @@ class BuildCommand extends Command
         $this->setHelp(<<<EOT
 Build a target:
 
-    <info>$ php app/console %command.full_name% mytarget</info>
+    <info>$ php %command.full_name% mytarget</info>
 
 If you want to see which targets are available run the command without any arguments:
 
-    <info>$ php app/console %command.full_name%</info>
+    <info>$ php %command.full_name%</info>
 
 By default the build system will build any dependencies that the target
 has, to disable this use the <comment>--nodeps</comment> option.
 
-    <info>$ php app/console %command.full_name% --nodeps</info>
+    <info>$ php %command.full_name% --nodeps</info>
 EOT
         );
 
