@@ -17,7 +17,7 @@
         "psr-4": {"Massive\\Bundle\\BuildBundle\\": "."}
     },
     "require-dev": {
-        "phpspec/prophecy-phpunit": "v1.0.1",
-        "matthiasnoback/symfony-dependency-injection-test": "v0.7.1"
+        "phpunit/phpunit": "5.7.*",
+        "matthiasnoback/symfony-dependency-injection-test": "1.1.*"
     }
 }

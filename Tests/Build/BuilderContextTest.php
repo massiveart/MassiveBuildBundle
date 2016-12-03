@@ -5,7 +5,7 @@ namespace Massive\Bundle\BuildBundle\Tests\Build;
 use Prophecy\PhpUnit\ProphecyTestCase;
 use Massive\Bundle\BuildBundle\Build\BuilderContext;
 
-class BuilderContextTest extends ProphecyTestCase
+class BuilderContextTest extends \PHPUnit_Framework_TestCase
 {
     protected $input;
     protected $output;
