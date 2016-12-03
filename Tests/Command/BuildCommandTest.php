@@ -9,7 +9,7 @@ use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Prophecy\Argument;
 
-class BuildCommandTest extends ProphecyTestCase
+class BuildCommandTest extends \PHPUnit_Framework_TestCase 
 {
     public function setUp()
     {

@@ -2,11 +2,16 @@
 
 namespace Massive\Bundle\BuildBundle\Tests\Build;
 
-use Prophecy\PhpUnit\ProphecyTestCase;
+use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 
-class BuildRegistryTest extends ProphecyTestCase
+class BuildRegistryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var BuildRegistry
+     */
+    private $buildRegistry;
+
     public function setUp()
     {
         parent::setUp();
@@ -16,7 +21,7 @@ class BuildRegistryTest extends ProphecyTestCase
 
     protected function createBuilder($name, $dependencies = array())
     {
-        $builder = $this->prophesize('Massive\Bundle\BuildBundle\Build\BuilderInterface');
+        $builder = $this->prophesize(BuilderInterface::class);
         $builder->getName()->willReturn($name);
         $builder->getDependencies()->willReturn($dependencies);
 
@@ -90,7 +95,9 @@ class BuildRegistryTest extends ProphecyTestCase
             $builderNames[] = $builder->getName();
         }
 
-        $this->assertEquals(array('builder4', 'builder2', 'builder3', 'builder1'), $builderNames);
+        $this->assertTrue(array_search('builder4', $builderNames) < array_search('builder3', $builderNames));
+        $this->assertTrue(array_search('builder3', $builderNames) < array_search('builder1', $builderNames));
+        $this->assertTrue(array_search('builder4', $builderNames) < array_search('builder1', $builderNames));
     }
 
     public function testGetBuildersForTarget()

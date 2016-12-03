@@ -2,6 +2,8 @@
 
 namespace Massive\Bundle\BuildBundle\Command;
 
+use Massive\Bundle\BuildBundle\Build\BuilderInterface;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,14 +15,32 @@ use Massive\Bundle\BuildBundle\Build\BuilderContext;
 use Massive\Bundle\BuildBundle\Console\MassiveOutputFormatter;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Helper\TableHelper;
 
 class BuildCommand extends Command
 {
+    /**
+     * @var BuildRegistry
+     */
     protected $buildRegistry;
+
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
+
+    /**
+     * @var OutputInterface
+     */
     protected $output;
+
+    /**
+     * @var InputInterface
+     */
     protected $input;
+
+    /**
+     * @var DialogHelper
+     */
     protected $dialog;
 
     /**
@@ -114,7 +134,7 @@ EOT
     {
         $this->writeTitle('Build Targets');
 
-        $table = new TableHelper();
+        $table = new Table($this->output);
         $table->setHeaders(array('#', 'Builder', 'Deps'));
 
         foreach ($builders as $i => $builder) {
@@ -125,7 +145,7 @@ EOT
             )));
         }
 
-        $table->render($this->output);
+        $table->render();
 
         $this->output->writeln('');
         $this->output->writeln('<info>Options:</info>');
