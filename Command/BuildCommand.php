@@ -2,19 +2,21 @@
 
 namespace Massive\Bundle\BuildBundle\Command;
 
-use Massive\Bundle\BuildBundle\Build\BuilderInterface;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Massive\Bundle\BuildBundle\Build\BuildRegistry;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Massive\Bundle\BuildBundle\Build\BuilderContext;
+use Massive\Bundle\BuildBundle\Build\BuilderInterface;
+use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 use Massive\Bundle\BuildBundle\Console\MassiveOutputFormatter;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BuildCommand extends Command
 {
@@ -39,9 +41,9 @@ class BuildCommand extends Command
     protected $input;
 
     /**
-     * @var DialogHelper
+     * @var QuestionHelper
      */
-    protected $dialog;
+    protected $question;
 
     /**
      * @param BuildRegistry      $buildRegistry
@@ -52,7 +54,7 @@ class BuildCommand extends Command
         parent::__construct();
         $this->buildRegistry = $buildRegistry;
         $this->container = $container;
-        $this->dialog = new DialogHelper();
+        $this->question = new QuestionHelper();
     }
 
     /**
@@ -108,12 +110,11 @@ EOT
         }
 
         if (false === $this->input->getOption('no-interaction')) {
-            $res = $this->dialog->askConfirmation($this->output, '<question>Look good? (y)</question>', true);
-
-            if (false === $res) {
+            $question = new ConfirmationQuestion('<question>Look good? (y)</question>', true);
+            if (!$this->question->ask($input, $output, $question)) {
                 $this->output->writeln('Bye!');
 
-                return 0;
+                return;
             }
         }
 
