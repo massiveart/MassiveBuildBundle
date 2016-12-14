@@ -3,7 +3,6 @@
 namespace Massive\Bundle\BuildBundle\Tests\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Prophecy\PhpUnit\ProphecyTestCase;
 use Massive\Bundle\BuildBundle\Command\BuildCommand;
 use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
