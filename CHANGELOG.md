@@ -1,7 +1,7 @@
 Changelog for MassiveBuildBundle
 ================================
 
-* dev-master
+* 0.3.0 (2017-03-06)
     * ENHANCEMENT #13 Upgraded dependencies to symfony3
     * BUGFIX      #12 Removed deprecated console helpers
 
