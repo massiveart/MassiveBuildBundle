@@ -30,6 +30,10 @@ class MassiveOutputFormatter extends OutputFormatter
     public function format($message)
     {
         $out = parent::format($message);
+        if (!$this->isDecorated()) {
+            return $out;
+        }
+
         $lines = explode("\n", $out);
         foreach ($lines as &$line) {
             $line = str_repeat('    ', $this->indentLevel) . $line;
