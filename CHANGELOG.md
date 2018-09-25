@@ -1,6 +1,9 @@
 Changelog for MassiveBuildBundle
 ================================
 
+* 0.4.0 (2018-09-25)
+    * ENHANCEMENT  #124 Updated dependencies for symfony4 and fixed deprecations
+
 * 0.3.1 (2018-03-26)
     * ENHANCEMENT #14 Do not indent message when decoration is disabled
 
