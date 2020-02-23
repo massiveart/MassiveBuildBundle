@@ -2,7 +2,9 @@
 
 namespace Massive\Bundle\BuildBundle\Builder;
 
-class VirtualBuilderTest extends \PHPUnit_Framework_TestCase
+use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
+
+class VirtualBuilderTest extends BaseTestCase
 {
     protected $builder;
 

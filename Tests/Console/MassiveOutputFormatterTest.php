@@ -3,8 +3,9 @@
 namespace Massive\Bundle\BuildBundle\Tests\Console;
 
 use Massive\Bundle\BuildBundle\Console\MassiveOutputFormatter;
+use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
 
-class MassiveOutputFormatterTest extends \PHPUnit_Framework_TestCase
+class MassiveOutputFormatterTest extends BaseTestCase
 {
 
     /**

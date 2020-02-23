@@ -7,7 +7,7 @@ use Massive\Bundle\BuildBundle\DependencyInjection\MassiveBuildExtension;
 
 class MassiveArtBuildExtensionTest extends AbstractExtensionTestCase
 {
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return array(
             new MassiveBuildExtension()

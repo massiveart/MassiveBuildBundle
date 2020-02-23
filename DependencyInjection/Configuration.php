@@ -17,8 +17,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('massive_art_build');
+        $treeBuilder = new TreeBuilder('massive_art_build');
+        $rootNode = $treeBuilder->getRootNode();
         $rootNode
             ->children()
                 ->scalarNode('command_class')->defaultValue('Massive\Bundle\BuildBundle\Command\BuildCommand')->end()

@@ -3,3 +3,6 @@ vendor
 
 *.iml
 .idea
+
+.phpunit.result.cache
+phpunit.xml

@@ -2,11 +2,14 @@
 
 namespace Massive\Bundle\BuildBundle\Tests\DependencyInjection;
 
-use Matthias\SymfonyConfigTest\PhpUnit\AbstractConfigurationTestCase;
 use Massive\Bundle\BuildBundle\DependencyInjection\Configuration;
+use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
+use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 
-class ConfigurationTest extends AbstractConfigurationTestCase
+class ConfigurationTest extends BaseTestCase
 {
+    use ConfigurationTestCaseTrait;
+
     protected function getConfiguration()
     {
         return new Configuration();
@@ -20,8 +23,8 @@ class ConfigurationTest extends AbstractConfigurationTestCase
                 'targets' => array(
                     'all' => array(
                         'dependencies' => array(
-                            'foo' => array(), 
-                            'bar' => array(), 
+                            'foo' => array(),
+                            'bar' => array(),
                             'baz' => array(),
                         ),
                     ),
@@ -32,7 +35,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
                 'targets' => array(
                     'all' => array(
                         'dependencies' => array(
-                            'foo' => array(), 
+                            'foo' => array(),
                             'bar' => array(),
                             'baz' => array(),
                         )
@@ -49,8 +52,8 @@ class ConfigurationTest extends AbstractConfigurationTestCase
                 'targets' => array(
                     'all' => array(
                         'dependencies' => array(
-                            'foo' => null, 
-                            'bar' => null, 
+                            'foo' => null,
+                            'bar' => null,
                             'baz' => null,
                         ),
                     ),
@@ -61,7 +64,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
                 'targets' => array(
                     'all' => array(
                         'dependencies' => array(
-                            'foo' => array(), 
+                            'foo' => array(),
                             'bar' => array(),
                             'baz' => array(),
                         )
