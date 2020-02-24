@@ -1,8 +1,13 @@
 Changelog for MassiveBuildBundle
 ================================
 
+* 0.5.0 (2020-20-24)
+    * ENHANCEMENT #17 Add symfony 5 support
+    * ENHANCEMENT #17 Drop symfony 3 support
+    * ENHANCEMENT #17 Set minimum PHP Version to 7.2
+
 * 0.4.0 (2018-09-25)
-    * ENHANCEMENT  #124 Updated dependencies for symfony4 and fixed deprecations
+    * ENHANCEMENT  #16 Updated dependencies for symfony4 and fixed deprecations
 
 * 0.3.1 (2018-03-26)
     * ENHANCEMENT #14 Do not indent message when decoration is disabled
