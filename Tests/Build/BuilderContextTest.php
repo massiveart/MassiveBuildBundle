@@ -3,8 +3,9 @@
 namespace Massive\Bundle\BuildBundle\Tests\Build;
 
 use Massive\Bundle\BuildBundle\Build\BuilderContext;
+use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
 
-class BuilderContextTest extends \PHPUnit_Framework_TestCase
+class BuilderContextTest extends BaseTestCase
 {
     protected $input;
     protected $output;

@@ -16,6 +16,8 @@
     </filter>
 
     <php>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="strong"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+        <env name="SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT" value="1"/>
+        <env name="SYMFONY_PHPUNIT_REMOVE" value="symfony/yaml"/>
     </php>
 </phpunit>

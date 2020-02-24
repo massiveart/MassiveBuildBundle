@@ -2,13 +2,14 @@
 
 namespace Massive\Bundle\BuildBundle\Tests\Command;
 
+use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Massive\Bundle\BuildBundle\Command\BuildCommand;
 use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Prophecy\Argument;
 
-class BuildCommandTest extends \PHPUnit_Framework_TestCase 
+class BuildCommandTest extends BaseTestCase
 {
     public function setUp()
     {
@@ -83,8 +84,8 @@ class BuildCommandTest extends \PHPUnit_Framework_TestCase
 
         $this->execute(array(), array());
         $display = $this->tester->getDisplay();
-        $this->assertContains('Builder 1', $display);
-        $this->assertContains('Builder 2', $display);
+        $this->assertStringContainsString('Builder 1', $display);
+        $this->assertStringContainsString('Builder 2', $display);
     }
 }
 

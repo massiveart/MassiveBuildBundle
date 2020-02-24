@@ -124,6 +124,8 @@ EOT
         $end = microtime(true);
 
         $this->output->writeln(sprintf('<info>Done (%ss)</info>', number_format($end - $start, 2)));
+
+        return 0;
     }
 
     /**

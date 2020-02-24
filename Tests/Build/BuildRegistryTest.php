@@ -4,8 +4,9 @@ namespace Massive\Bundle\BuildBundle\Tests\Build;
 
 use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Build\BuildRegistry;
+use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
 
-class BuildRegistryTest extends \PHPUnit_Framework_TestCase
+class BuildRegistryTest extends BaseTestCase
 {
     /**
      * @var BuildRegistry
@@ -44,32 +45,26 @@ class BuildRegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $this->buildRegistry->getBuilders());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage has already been added
-     */
     public function testAddExisting()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('has already been added');
         $builder1 = $this->createBuilder('builder1');
         $this->buildRegistry->addBuilder($builder1->reveal());
         $this->buildRegistry->addBuilder($builder1->reveal());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage non-existent
-     */
     public function testGetBuilderNotExistent()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('non-existent');
         $this->buildRegistry->getBuilder('non-existent');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage unknown builder
-     */
     public function testBuilderDependenciesMissingDep()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('unknown builder');
         $builder1 = $this->createBuilder('builder1');
         $builder1->getDependencies()->willReturn(array('foobar'));
         $this->buildRegistry->addBuilder($builder1->reveal());
