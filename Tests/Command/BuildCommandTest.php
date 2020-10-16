@@ -75,6 +75,26 @@ class BuildCommandTest extends BaseTestCase
         $this->assertEquals(0, $res);
     }
 
+    public function testBuildTargetThatFails()
+    {
+        $this->buildRegistry->getBuilders('Builder 1')->willReturn(array(
+            $this->builder1->reveal(),
+            $this->builder2->reveal()
+        ));
+
+        $this->builder2->setContainer($this->container)->shouldBeCalled();
+        $this->builder1->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\BuilderContext'))
+                       ->shouldBeCalled();
+        $this->builder2->setContext(Argument::type('Massive\Bundle\BuildBundle\Build\BuilderContext'))
+                       ->shouldBeCalled();
+
+        $this->builder1->build()->shouldBeCalled()->willReturn(1);
+        $this->builder2->build()->shouldBeCalled();
+
+        $res = $this->execute(array('target' => 'Builder 1', '--exitCode' => true), array());
+        $this->assertEquals(1, $res);
+    }
+
     public function testBuildNotTarget()
     {
         $this->buildRegistry->getBuilders(null)->willReturn(array(
