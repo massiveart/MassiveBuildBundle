@@ -25,6 +25,8 @@ interface BuilderInterface
 
     /**
      * Execute the build logic
+     *
+     * @return int|null
      */
     public function build();
 
