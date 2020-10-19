@@ -82,7 +82,7 @@ EOT
 
         $this->addArgument('target', InputArgument::OPTIONAL, 'Target to build', null);
         $this->addOption('nodeps', 'D', InputOption::VALUE_NONE, 'Ignore dependencies');
-        $this->addOption('exitCode', 'e', InputOption::VALUE_NONE, 'Keep the exit code of a job if it fails');
+        $this->addOption('keep-exit-code', '-k', InputOption::VALUE_NONE, 'Keep the exit code of a job if it fails');
     }
 
     /**
@@ -115,7 +115,7 @@ EOT
             if (!$this->question->ask($input, $output, $question)) {
                 $this->output->writeln('Bye!');
 
-                return;
+                return 0;
             }
         }
 
@@ -126,7 +126,7 @@ EOT
 
         $this->output->writeln(sprintf('<info>Done (%ss)</info>', number_format($end - $start, 2)));
 
-        if($input->getOption('exitCode') && $exitCode !== 0) {
+        if($exitCode !== 0 && $input->getOption('keep-exit-code')) {
             return $exitCode;
         }
         return 0;

@@ -91,8 +91,8 @@ class BuildCommandTest extends BaseTestCase
         $this->builder1->build()->shouldBeCalled()->willReturn(1);
         $this->builder2->build()->shouldBeCalled();
 
-        $res = $this->execute(array('target' => 'Builder 1', '--exitCode' => true), array());
-        $this->assertEquals(1, $res);
+        $exitCode = $this->execute(array('target' => 'Builder 1', '--keep-exit-code' => true), array());
+        $this->assertEquals(1, $exitCode);
     }
 
     public function testBuildNotTarget()
