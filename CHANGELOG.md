@@ -1,6 +1,9 @@
 Changelog for MassiveBuildBundle
 ================================
 
+* 0.5.2 (2020-10-19)
+    * BUGFIX #19 Fix regression in return type of BuilderInterface
+
 * 0.5.1 (2020-10-19)
     * FEATURE #18 Add option to keep exit code in build command
 
