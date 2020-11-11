@@ -1,6 +1,9 @@
 Changelog for MassiveBuildBundle
 ================================
 
+* 0.5.3 (2020-11-11)
+    * ENHANCEMENT  #20 Fix autoloader for composer 2
+
 * 0.5.2 (2020-10-19)
     * BUGFIX #19 Fix regression in return type of BuilderInterface
 
@@ -11,6 +14,9 @@ Changelog for MassiveBuildBundle
     * ENHANCEMENT #17 Add symfony 5 support
     * ENHANCEMENT #17 Drop symfony 3 support
     * ENHANCEMENT #17 Set minimum PHP Version to 7.2
+
+* 0.4.1 (2020-11-11)
+    * ENHANCEMENT  #20 Fix autoloader for composer 2
 
 * 0.4.0 (2018-09-25)
     * ENHANCEMENT  #16 Updated dependencies for symfony4 and fixed deprecations
