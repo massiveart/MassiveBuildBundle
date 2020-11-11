@@ -1,6 +1,9 @@
 Changelog for MassiveBuildBundle
 ================================
 
+* 0.4.1 (2020-11-11)
+    * ENHANCEMENT  #20 Fix autoloader for composer 2
+
 * 0.4.0 (2018-09-25)
     * ENHANCEMENT  #124 Updated dependencies for symfony4 and fixed deprecations
 
