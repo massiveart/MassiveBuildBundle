@@ -21,6 +21,9 @@
         "matthiasnoback/symfony-dependency-injection-test": "^4.0"
     },
     "autoload": {
-        "psr-4": {"Massive\\Bundle\\BuildBundle\\": "."}
+        "psr-4": {"Massive\\Bundle\\BuildBundle\\": "."},
+        "exclude-from-classmap": [
+            "Tests/"
+        ]
     }
 }
