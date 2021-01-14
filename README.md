@@ -1,7 +1,7 @@
 Massive Build Bundle
 ====================
 
-[![](https://travis-ci.org/massiveart/MassiveBuildBundle.png)](https://travis-ci.org/massiveart/MassiveBuildBundle)
+[![Test Workflow Status](https://img.shields.io/github/workflow/status/massiveart/MassiveBuildBundle/Test%20application?label=test-workflow)](https://github.com/massiveart/MassiveBuildBundle/actions)
 
 The Massive Build Bundle provides a `massive:build` command which runs build
 targets.
