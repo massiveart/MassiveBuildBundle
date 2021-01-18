@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the MassiveBuildBundle
+ *
+ * (c) MASSIVE ART WebServices GmbH
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Massive\Bundle\BuildBundle\Tests\DependencyInjection;
 
 use Massive\Bundle\BuildBundle\DependencyInjection\Configuration;
@@ -17,60 +26,60 @@ class ConfigurationTest extends BaseTestCase
 
     public function testConfiguration()
     {
-        $this->assertProcessedConfigurationEquals(array(
-            array(
+        $this->assertProcessedConfigurationEquals([
+            [
                 'command_class' => 'Foo\Bar',
-                'targets' => array(
-                    'all' => array(
-                        'dependencies' => array(
-                            'foo' => array(),
-                            'bar' => array(),
-                            'baz' => array(),
-                        ),
-                    ),
-                ),
-            ),
-        ), array(
+                'targets' => [
+                    'all' => [
+                        'dependencies' => [
+                            'foo' => [],
+                            'bar' => [],
+                            'baz' => [],
+                        ],
+                    ],
+                ],
+            ],
+        ], [
                 'command_class' => 'Foo\Bar',
-                'targets' => array(
-                    'all' => array(
-                        'dependencies' => array(
-                            'foo' => array(),
-                            'bar' => array(),
-                            'baz' => array(),
-                        )
-                    ),
-                ),
-            )
+                'targets' => [
+                    'all' => [
+                        'dependencies' => [
+                            'foo' => [],
+                            'bar' => [],
+                            'baz' => [],
+                        ],
+                    ],
+                ],
+            ]
         );
     }
 
     public function testTargetsAsNull()
     {
-        $this->assertProcessedConfigurationEquals(array(
-            array(
-                'targets' => array(
-                    'all' => array(
-                        'dependencies' => array(
+        $this->assertProcessedConfigurationEquals([
+            [
+                'targets' => [
+                    'all' => [
+                        'dependencies' => [
                             'foo' => null,
                             'bar' => null,
                             'baz' => null,
-                        ),
-                    ),
-                ),
-            ),
-        ), array(
+                        ],
+                    ],
+                ],
+            ],
+        ], [
                 'command_class' => 'Massive\Bundle\BuildBundle\Command\BuildCommand',
-                'targets' => array(
-                    'all' => array(
-                        'dependencies' => array(
-                            'foo' => array(),
-                            'bar' => array(),
-                            'baz' => array(),
-                        )
-                    ),
-                ),
-            )
+                'targets' => [
+                    'all' => [
+                        'dependencies' => [
+                            'foo' => [],
+                            'bar' => [],
+                            'baz' => [],
+                        ],
+                    ],
+                ],
+            ]
         );
     }
 }

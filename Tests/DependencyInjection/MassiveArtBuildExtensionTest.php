@@ -1,17 +1,26 @@
 <?php
 
+/*
+ * This file is part of the MassiveBuildBundle
+ *
+ * (c) MASSIVE ART WebServices GmbH
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Massive\Bundle\BuildBundle\Tests\DependencyInjection;
 
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Massive\Bundle\BuildBundle\DependencyInjection\MassiveBuildExtension;
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 class MassiveArtBuildExtensionTest extends AbstractExtensionTestCase
 {
     protected function getContainerExtensions(): array
     {
-        return array(
-            new MassiveBuildExtension()
-        );
+        return [
+            new MassiveBuildExtension(),
+        ];
     }
 
     public function testRegistration()
@@ -22,13 +31,13 @@ class MassiveArtBuildExtensionTest extends AbstractExtensionTestCase
 
     public function testLoadWithTargets()
     {
-        $this->load(array(
-            'targets' => array(
-                'all' => array(
-                    'dependencies' => array('one' => array(), 'two' => array(), 'three' => array())
-                )
-            ),
-        ));
+        $this->load([
+            'targets' => [
+                'all' => [
+                    'dependencies' => ['one' => [], 'two' => [], 'three' => []],
+                ],
+            ],
+        ]);
 
         $this->assertContainerBuilderHasServiceDefinitionWithTag(
             'massive_build.builder.virtual.all',
@@ -42,7 +51,7 @@ class MassiveArtBuildExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'massive_build.builder.virtual.all',
-            1, array('one', 'two', 'three')
+            1, ['one', 'two', 'three']
         );
     }
 }
