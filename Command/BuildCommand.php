@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the MassiveBuildBundle
+ *
+ * (c) MASSIVE ART WebServices GmbH
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Massive\Bundle\BuildBundle\Command;
 
 use Massive\Bundle\BuildBundle\Build\BuilderContext;
@@ -7,7 +16,6 @@ use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 use Massive\Bundle\BuildBundle\Console\MassiveOutputFormatter;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -45,10 +53,6 @@ class BuildCommand extends Command
      */
     protected $question;
 
-    /**
-     * @param BuildRegistry      $buildRegistry
-     * @param ContainerInterface $container
-     */
     public function __construct(BuildRegistry $buildRegistry, ContainerInterface $container)
     {
         parent::__construct();
@@ -57,9 +61,6 @@ class BuildCommand extends Command
         $this->question = new QuestionHelper();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configure()
     {
         $this->setName('massive:build');
@@ -84,9 +85,6 @@ EOT
         $this->addOption('nodeps', 'D', InputOption::VALUE_NONE, 'Ignore dependencies');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
@@ -96,16 +94,16 @@ EOT
         $target = $input->getArgument('target');
 
         if ($input->getOption('nodeps')) {
-            $builders = array($this->buildRegistry->getBuilder($target));
+            $builders = [$this->buildRegistry->getBuilder($target)];
         } else {
             $builders = $this->buildRegistry->getBuilders($target);
         }
 
-        $start = microtime(true);
+        $start = \microtime(true);
 
         $this->renderTargets($builders);
 
-        if ($target === null) {
+        if (null === $target) {
             return 0;
         }
 
@@ -121,13 +119,13 @@ EOT
         $this->output->writeln('');
         $this->runBuilders($builders);
 
-        $end = microtime(true);
+        $end = \microtime(true);
 
-        $this->output->writeln(sprintf('<info>Done (%ss)</info>', number_format($end - $start, 2)));
+        $this->output->writeln(\sprintf('<info>Done (%ss)</info>', \number_format($end - $start, 2)));
     }
 
     /**
-     * Render the target list
+     * Render the target list.
      *
      * @param BuilderInterface[] $builders
      */
@@ -136,14 +134,14 @@ EOT
         $this->writeTitle('Build Targets');
 
         $table = new Table($this->output);
-        $table->setHeaders(array('#', 'Builder', 'Deps'));
+        $table->setHeaders(['#', 'Builder', 'Deps']);
 
         foreach ($builders as $i => $builder) {
-            $table->addRow(array(
+            $table->addRow([
                 $i,
                 $builder->getName(),
-                implode(', ', $builder->getDependencies()
-            )));
+                \implode(', ', $builder->getDependencies()
+            ), ]);
         }
 
         $table->render();
@@ -152,15 +150,14 @@ EOT
         $this->output->writeln('<info>Options:</info>');
         $this->output->writeln('');
         foreach ($this->input->getOptions() as $optionName => $optionValue) {
-            $this->output->writeln(sprintf('  - <info>%s</info>: %s', $optionName, var_export($optionValue, true)));
+            $this->output->writeln(\sprintf('  - <info>%s</info>: %s', $optionName, \var_export($optionValue, true)));
         }
 
         $this->output->writeln('');
-
     }
 
     /**
-     * Execute the builders
+     * Execute the builders.
      *
      * @param BuilderInterface[] $builders
      */
@@ -179,7 +176,7 @@ EOT
 
             $builder->setContext($builderContext);
 
-            $this->output->writeln(sprintf(
+            $this->output->writeln(\sprintf(
                 '<info>Target: </info>%s', $builder->getName()
             ));
             $this->output->writeln('');
@@ -191,8 +188,8 @@ EOT
 
     protected function writeTitle($title)
     {
-        $this->output->writeln(sprintf('<info>%s</info>', $title));
-        $this->output->writeln(sprintf('<info>%s</info>', str_repeat('=', strlen($title))));
+        $this->output->writeln(\sprintf('<info>%s</info>', $title));
+        $this->output->writeln(\sprintf('<info>%s</info>', \str_repeat('=', \strlen($title))));
         $this->output->writeln('');
     }
 }
