@@ -22,22 +22,27 @@ jobs:
                     - php-version: '5.5'
                       composer-flags: '--prefer-lowest --prefer-dist --no-interaction'
                       tools: 'composer:v1'
+                      php-cs-fixer: false
 
                     - php-version: '5.6'
                       composer-flags: '--prefer-dist --no-interaction'
                       tools: 'composer:v2'
+                      php-cs-fixer: false
 
                     - php-version: '7.0'
                       composer-flags: '--prefer-lowest --prefer-dist --no-interaction'
                       tools: 'composer:v2'
+                      php-cs-fixer: false
 
                     - php-version: '7.2'
                       composer-flags: '--prefer-dist --no-interaction'
                       tools: 'composer:v1'
+                      php-cs-fixer: false
 
                     - php-version: '7.4'
                       composer-flags: '--prefer-dist --no-interaction'
                       tools: 'composer:v2'
+                      php-cs-fixer: true
 
         steps:
             - name: Checkout project
@@ -60,6 +65,13 @@ jobs:
                   key: ${{ runner.os }}-composer-${{ hashFiles('composer.json', 'composer.lock') }}
                   restore-keys: |
                       ${{ runner.os }}-composer-
+
+            - name: Run php-cs-fixer
+              if: ${{ matrix.php-cs-fixer }}
+              run: |
+                  composer global require friendsofphp/php-cs-fixer --prefer-dist --no-interaction
+                  GLOBAL_BIN_DIR=$(composer global config bin-dir --absolute --quiet)
+                  $GLOBAL_BIN_DIR/php-cs-fixer fix --dry-run --diff
 
             - name: Install dependencies
               run: |
