@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of the MassiveBuildBundle
+ *
+ * (c) MASSIVE ART WebServices GmbH
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Massive\Bundle\BuildBundle\Builder;
 
-use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Build\BuilderContext;
+use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 
 /**
  * A builder which does nothing itself but declares
@@ -23,7 +32,7 @@ class VirtualBuilder implements BuilderInterface
     }
 
     /**
-     * Return the name for this builder
+     * Return the name for this builder.
      *
      * @return string
      */
@@ -33,7 +42,7 @@ class VirtualBuilder implements BuilderInterface
     }
 
     /**
-     * Return the dependencies for this builder
+     * Return the dependencies for this builder.
      *
      * @return array
      */
@@ -43,14 +52,14 @@ class VirtualBuilder implements BuilderInterface
     }
 
     /**
-     * Execute the build logic
+     * Execute the build logic.
      */
     public function build()
     {
     }
 
     /**
-     * Set the builder context
+     * Set the builder context.
      *
      * @param \Massive\Bundle\BuildBundle\Build\BuilderContext
      */
