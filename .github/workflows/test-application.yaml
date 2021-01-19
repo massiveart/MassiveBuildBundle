@@ -9,7 +9,7 @@ on:
 
 jobs:
     test:
-        name: 'Run tests with php ${{ matrix.php-version }}'
+        name: 'PHP ${{ matrix.php-version }} (${{ matrix.dependency-versions }})'
         runs-on: ubuntu-latest
 
         strategy:
@@ -17,12 +17,12 @@ jobs:
             matrix:
                 include:
                     - php-version: '7.2'
-                      composer-flags: '--prefer-lowest --prefer-dist --no-interaction'
+                      dependency-versions: 'lowest'
                       tools: 'composer:v1'
                       php-cs-fixer: false
 
                     - php-version: '7.4'
-                      composer-flags: '--prefer-dist --no-interaction'
+                      dependency-versions: 'highest'
                       tools: 'composer:v2'
                       php-cs-fixer: true
 
@@ -36,17 +36,10 @@ jobs:
                   php-version: ${{ matrix.php-version }}
                   tools: ${{ matrix.tools }}
 
-            - name: Get composer cache directory
-              id: composer-cache-dir
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-            - name: Cache dependencies
-              uses: actions/cache@v2
+            - name: Install composer dependencies
+              uses: ramsey/composer-install@v1
               with:
-                  path: ${{ steps.composer-cache-dir.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('composer.json', 'composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-composer-
+                  dependency-versions: ${{matrix.dependency-versions}}
 
             - name: Run php-cs-fixer
               if: ${{ matrix.php-cs-fixer }}
@@ -55,10 +48,8 @@ jobs:
                   GLOBAL_BIN_DIR=$(composer global config bin-dir --absolute --quiet)
                   $GLOBAL_BIN_DIR/php-cs-fixer fix --dry-run --diff
 
-            - name: Install dependencies
-              run: |
-                  composer validate --strict
-                  composer update ${{ matrix.composer-flags }}
+            - name: Lint code
+              run: composer validate --strict
 
             - name: Execute test cases
               run: vendor/bin/simple-phpunit
