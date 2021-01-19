@@ -9,7 +9,7 @@ on:
 
 jobs:
     test:
-        name: 'Run tests with php ${{ matrix.php-version }}'
+        name: 'PHP ${{ matrix.php-version }} (${{ matrix.dependency-versions }})'
         runs-on: ubuntu-latest
 
         env:
