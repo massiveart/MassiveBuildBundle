@@ -16,13 +16,8 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - php-version: '7.2'
-                      dependency-versions: 'lowest'
-                      tools: 'composer:v1'
-                      php-cs-fixer: false
-
                     - php-version: '7.4'
-                      dependency-versions: 'highest'
+                      dependency-versions: 'lowest'
                       tools: 'composer:v2'
                       php-cs-fixer: false
 
