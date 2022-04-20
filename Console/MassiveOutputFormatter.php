@@ -33,7 +33,7 @@ class MassiveOutputFormatter extends OutputFormatter
         $this->indentLevel = $level;
     }
 
-    public function format(?string $message): ?string
+    public function format($message): ?string
     {
         $out = parent::format($message);
         if (!$this->isDecorated()) {
