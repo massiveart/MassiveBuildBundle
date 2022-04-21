@@ -24,6 +24,16 @@ jobs:
                     - php-version: '7.4'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
+                      php-cs-fixer: false
+
+                    - php-version: '8.0'
+                      dependency-versions: 'highest'
+                      tools: 'composer:v2'
+                      php-cs-fixer: false
+
+                    - php-version: '8.1'
+                      dependency-versions: 'highest'
+                      tools: 'composer:v2'
                       php-cs-fixer: true
 
         steps:
