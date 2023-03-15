@@ -18,7 +18,8 @@
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.0.4 || ^6.0",
-        "matthiasnoback/symfony-dependency-injection-test": "^4.0"
+        "matthiasnoback/symfony-dependency-injection-test": "^4.0",
+        "phpspec/prophecy": "^1.14"
     },
     "autoload": {
         "psr-4": {"Massive\\Bundle\\BuildBundle\\": "."},
