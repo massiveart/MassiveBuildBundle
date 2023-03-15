@@ -36,6 +36,11 @@ jobs:
                       tools: 'composer:v2'
                       php-cs-fixer: true
 
+                    - php-version: '8.2'
+                      dependency-versions: 'highest'
+                      tools: 'composer:v2'
+                      php-cs-fixer: false
+
         steps:
             - name: Checkout project
               uses: actions/checkout@v2

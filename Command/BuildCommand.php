@@ -147,8 +147,8 @@ EOT
             $table->addRow([
                 $i,
                 $builder->getName(),
-                \implode(', ', $builder->getDependencies()
-            ), ]);
+                \implode(', ', $builder->getDependencies()),
+            ]);
         }
 
         $table->render();
