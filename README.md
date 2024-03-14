@@ -30,11 +30,13 @@ You can define new build targets in you applications configuration file:
 massive_build:
     targets:
         main:
-            target_one: ~
-            target_two: ~
-            target_three: ~
+            dependencies:
+                target_one: ~
+                target_two: ~
+                target_three: ~
         quick:
-            target_one: ~
+            dependencies:
+                target_one: ~
 ````
 
 The above will allow you to execute:
