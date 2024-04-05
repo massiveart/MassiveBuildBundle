@@ -14,9 +14,12 @@ namespace Massive\Bundle\BuildBundle\Tests\Build;
 use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
+use Massive\Bundle\BuildBundle\Tests\ProphecyTrait;
 
 class BuildRegistryTest extends BaseTestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var BuildRegistry
      */
