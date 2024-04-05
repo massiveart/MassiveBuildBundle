@@ -11,6 +11,9 @@
 
 namespace Massive\Bundle\BuildBundle\Build;
 
+/**
+ * @final
+ */
 class BuildRegistry
 {
     protected $builders = [];

@@ -18,6 +18,8 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Daniel Leech <daniel@dantleech.com>
  *
+ * @final
+ *
  * @internal
  */
 class BuilderPass implements CompilerPassInterface
