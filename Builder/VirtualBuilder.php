@@ -63,7 +63,7 @@ class VirtualBuilder implements BuilderInterface
     /**
      * Set the builder context.
      *
-     * @param \Massive\Bundle\BuildBundle\Build\BuilderContext
+     * @param BuilderContext
      */
     public function setContext(BuilderContext $context)
     {

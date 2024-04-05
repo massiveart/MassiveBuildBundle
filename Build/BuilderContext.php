@@ -24,7 +24,7 @@ class BuilderContext
     protected $output;
     protected $application;
 
-    public function __construct(InputInterface $input, OutputInterface $output, Application $application = null)
+    public function __construct(InputInterface $input, OutputInterface $output, ?Application $application = null)
     {
         $this->input = $input;
         $this->output = $output;

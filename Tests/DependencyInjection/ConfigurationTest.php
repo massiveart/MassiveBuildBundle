@@ -40,17 +40,17 @@ class ConfigurationTest extends BaseTestCase
                 ],
             ],
         ], [
-                'command_class' => 'Foo\Bar',
-                'targets' => [
-                    'all' => [
-                        'dependencies' => [
-                            'foo' => [],
-                            'bar' => [],
-                            'baz' => [],
-                        ],
+            'command_class' => 'Foo\Bar',
+            'targets' => [
+                'all' => [
+                    'dependencies' => [
+                        'foo' => [],
+                        'bar' => [],
+                        'baz' => [],
                     ],
                 ],
-            ]
+            ],
+        ]
         );
     }
 
@@ -69,17 +69,17 @@ class ConfigurationTest extends BaseTestCase
                 ],
             ],
         ], [
-                'command_class' => 'Massive\Bundle\BuildBundle\Command\BuildCommand',
-                'targets' => [
-                    'all' => [
-                        'dependencies' => [
-                            'foo' => [],
-                            'bar' => [],
-                            'baz' => [],
-                        ],
+            'command_class' => 'Massive\Bundle\BuildBundle\Command\BuildCommand',
+            'targets' => [
+                'all' => [
+                    'dependencies' => [
+                        'foo' => [],
+                        'bar' => [],
+                        'baz' => [],
                     ],
                 ],
-            ]
+            ],
+        ]
         );
     }
 }
