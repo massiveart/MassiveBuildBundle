@@ -19,33 +19,27 @@ jobs:
                     - php-version: '7.2'
                       dependency-versions: 'lowest'
                       tools: 'composer:v1'
-                      php-cs-fixer: false
 
                     - php-version: '7.4'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
-                      php-cs-fixer: false
 
                     - php-version: '8.0'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
-                      php-cs-fixer: false
 
                     - php-version: '8.1'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
-                      php-cs-fixer: true
 
                     - php-version: '8.2'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
-                      php-cs-fixer: false
 
                     - php-version: '8.3'
                       dependency-versions: 'highest'
                       minimum-stability: 'dev'
                       tools: 'composer:v2'
-                      php-cs-fixer: false
 
         steps:
             - name: Checkout project
@@ -66,8 +60,29 @@ jobs:
               with:
                   dependency-versions: ${{matrix.dependency-versions}}
 
+            - name: Execute test cases
+              run: vendor/bin/simple-phpunit
+
+    lint:
+        name: 'PHP Lint'
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout project
+              uses: actions/checkout@v2
+
+            - name: Install and configure PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 8.1
+                  tools: 'composer:v2'
+
+            - name: Install composer dependencies
+              uses: ramsey/composer-install@v1
+              with:
+                  dependency-versions: 'highest'
+
             - name: Run php-cs-fixer
-              if: ${{ matrix.php-cs-fixer }}
               run: |
                   composer global require friendsofphp/php-cs-fixer --prefer-dist --no-interaction
                   GLOBAL_BIN_DIR=$(composer global config bin-dir --absolute --quiet)
@@ -75,6 +90,3 @@ jobs:
 
             - name: Lint code
               run: composer validate --strict
-
-            - name: Execute test cases
-              run: vendor/bin/simple-phpunit

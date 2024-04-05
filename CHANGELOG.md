@@ -1,6 +1,18 @@
 Changelog for MassiveBuildBundle
 ================================
 
+* [0.5.6 (2023-04-05)](https://github.com/massiveart/MassiveBuildBundle/releases/tag/0.6.0)
+    * Introduce own `ContainerAwareInterface` to keep compatibility with Symfony 7.
+
+```diff
+-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
++use Massive\Bundle\BuildBundle\ContainerAwareInterface;
+```
+
+* [0.5.5 (2023-03-15)](https://github.com/massiveart/MassiveBuildBundle/releases/tag/0.5.5)
+
+* [0.5.4 (2022-04-21)](https://github.com/massiveart/MassiveBuildBundle/releases/tag/0.5.4)
+
 * 0.5.3 (2020-11-11)
     * ENHANCEMENT  #20 Fix autoloader for composer 2
 
