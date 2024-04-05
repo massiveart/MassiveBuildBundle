@@ -1,7 +1,7 @@
 Changelog for MassiveBuildBundle
 ================================
 
-* [0.5.6 (2023-04-05)](https://github.com/massiveart/MassiveBuildBundle/releases/tag/0.6.0)
+* [0.5.6 (2023-04-05)](https://github.com/massiveart/MassiveBuildBundle/releases/tag/0.5.6)
     * Introduce own `ContainerAwareInterface` to keep compatibility with Symfony 7.
 
 ```diff
