@@ -27,9 +27,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface as SymfonyContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @final
- */
 class BuildCommand extends Command
 {
     /**
@@ -65,7 +62,7 @@ class BuildCommand extends Command
         $this->question = new QuestionHelper();
     }
 
-    public function configure(): void
+    public function configure()
     {
         $this->setName('massive:build');
         $this->setDescription('Execute build or build targets');
