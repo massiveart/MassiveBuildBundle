@@ -41,6 +41,12 @@ jobs:
                       tools: 'composer:v2'
                       php-cs-fixer: false
 
+                    - php-version: '8.3'
+                      dependency-versions: 'highest'
+                      minimum-stability: 'dev'
+                      tools: 'composer:v2'
+                      php-cs-fixer: false
+
         steps:
             - name: Checkout project
               uses: actions/checkout@v2
@@ -50,6 +56,10 @@ jobs:
               with:
                   php-version: ${{ matrix.php-version }}
                   tools: ${{ matrix.tools }}
+
+            - name: Set composer stability
+              if: ${{ matrix.composer-stability }}
+              run: composer config minimum-stability ${{ matrix.composer-stability }}
 
             - name: Install composer dependencies
               uses: ramsey/composer-install@v1
