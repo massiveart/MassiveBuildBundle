@@ -13,9 +13,12 @@ namespace Massive\Bundle\BuildBundle\Tests\Build;
 
 use Massive\Bundle\BuildBundle\Build\BuilderContext;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
+use Massive\Bundle\BuildBundle\Tests\ProphecyTrait;
 
 class BuilderContextTest extends BaseTestCase
 {
+    use ProphecyTrait;
+
     protected $input;
     protected $output;
 

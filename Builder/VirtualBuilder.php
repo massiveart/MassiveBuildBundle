@@ -19,6 +19,8 @@ use Massive\Bundle\BuildBundle\Build\BuilderInterface;
  * dependencies on other builders.
  *
  * @author Daniel Leech <daniel@dantleech.com>
+ *
+ * @final
  */
 class VirtualBuilder implements BuilderInterface
 {

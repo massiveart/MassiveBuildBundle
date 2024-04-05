@@ -15,6 +15,7 @@ use Massive\Bundle\BuildBundle\Build\BuilderContext;
 use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Build\BuildRegistry;
 use Massive\Bundle\BuildBundle\Console\MassiveOutputFormatter;
+use Massive\Bundle\BuildBundle\ContainerAwareInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
@@ -23,9 +24,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface as SymfonyContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * @final
+ */
 class BuildCommand extends Command
 {
     /**
@@ -61,7 +65,7 @@ class BuildCommand extends Command
         $this->question = new QuestionHelper();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('massive:build');
         $this->setDescription('Execute build or build targets');
@@ -86,7 +90,7 @@ EOT
         $this->addOption('keep-exit-code', '-k', InputOption::VALUE_NONE, 'Keep the exit code of a job if it fails');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->input = $input;
         $this->output = $output;
@@ -178,7 +182,9 @@ EOT
         foreach ($builders as $builder) {
             $this->output->getFormatter()->setIndentLevel(0);
 
-            if ($builder instanceof ContainerAwareInterface) {
+            if ($builder instanceof SymfonyContainerAwareInterface
+                || $builder instanceof ContainerAwareInterface
+            ) {
                 $builder->setContainer($this->container);
             }
 

@@ -13,13 +13,16 @@ namespace Massive\Bundle\BuildBundle\Tests\Command;
 
 use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Command\BuildCommand;
+use Massive\Bundle\BuildBundle\ContainerAwareInterface;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
+use Massive\Bundle\BuildBundle\Tests\ProphecyTrait;
 use Prophecy\Argument;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 class BuildCommandTest extends BaseTestCase
 {
+    use ProphecyTrait;
+
     public function setUp()
     {
         parent::setUp();

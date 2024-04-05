@@ -11,6 +11,9 @@
 
 namespace Massive\Bundle\BuildBundle\Build;
 
+/**
+ * @final
+ */
 class BuildRegistry
 {
     protected $builders = [];
@@ -137,7 +140,7 @@ class BuildRegistry
             $dependencies = \array_keys($sequences);
         }
 
-        foreach ($dependencies  as $dependency) {
+        foreach ($dependencies as $dependency) {
             if (-1 === $sequences[$dependency]) {
                 $unsequencedBuilders[] = $dependency;
             }

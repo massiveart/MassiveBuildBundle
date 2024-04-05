@@ -19,5 +19,6 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
         <env name="SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT" value="1"/>
         <env name="SYMFONY_PHPUNIT_REMOVE" value="symfony/yaml"/>
+        <env name="SYMFONY_PHPUNIT_REQUIRE" value="phpspec/prophecy:^1.14"/>
     </php>
 </phpunit>
