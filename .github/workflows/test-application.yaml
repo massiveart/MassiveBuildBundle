@@ -72,13 +72,8 @@ jobs:
               with:
                   dependency-versions: ${{matrix.dependency-versions}}
 
-            - name: Install PHPUnit
-              run: vendor/bin/simple-phpunit install
-              env:
-                  SYMFONY_PHPUNIT_REQUIRE: ${{ matrix.envs.SYMFONY_PHPUNIT_REQUIRE }}
-
             - name: Execute test cases
-              run: vendor/bin/simple-phpunit
+              run: vendor/bin/phpunit
 
     lint:
         name: 'PHP Lint'
