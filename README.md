@@ -112,20 +112,6 @@ then tag it with
     <tag name="massive_build.builder" />
 </service>
 ````
-## Accessing the container
-
-You can access the service container by implementing the
-`ContainerAwareInterface`:
-
-````php
-<?php
-// ...
-
-class MyBuilder implements ContainerAwareInterface, BuilderInterface
-{
-    // ...
-}
-````
 
 ## Adding global options and customization
 
@@ -200,7 +186,3 @@ it has, to disable this use the `--nodeps` option.
 ````bash
 $ php app/console massive:build --nodeps
 ````
-
-## Requirements
-
-* Symfony: 2.4+
