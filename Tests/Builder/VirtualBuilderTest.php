@@ -9,15 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Massive\Bundle\BuildBundle\Builder;
+namespace Massive\Bundle\BuildBundle\Tests\Builder;
 
+use Massive\Bundle\BuildBundle\Builder\VirtualBuilder;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
 
 class VirtualBuilderTest extends BaseTestCase
 {
     protected $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = new VirtualBuilder('builder', ['one', 'two', 'three']);
     }

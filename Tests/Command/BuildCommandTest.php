@@ -23,7 +23,7 @@ class BuildCommandTest extends BaseTestCase
 {
     use ProphecyTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

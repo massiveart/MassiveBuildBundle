@@ -25,7 +25,7 @@ class BuildRegistryTest extends BaseTestCase
      */
     private $buildRegistry;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
