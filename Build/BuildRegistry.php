@@ -54,8 +54,7 @@ class BuildRegistry
 
     protected function getBuildersForTarget($target, &$list = [], &$resolved = [])
     {
-        $builders = [];
-        $builder = $this->builders[$target];
+        $builder = $this->getBuilder($target);
         $dependencies = $builder->getDependencies();
 
         foreach ($dependencies as $dependency) {
