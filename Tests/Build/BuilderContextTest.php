@@ -22,7 +22,7 @@ class BuilderContextTest extends BaseTestCase
     protected $input;
     protected $output;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->input = $this->prophesize('Symfony\Component\Console\Input\InputInterface');

@@ -17,8 +17,9 @@
         "symfony/framework-bundle": "^4.3 || ^5.0 || ^6.0 || ^7.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.4.33|^6.3.10|^7.0.1",
-        "matthiasnoback/symfony-dependency-injection-test": "^4.0 || ^5.0"
+        "phpunit/phpunit": "^8.5",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.0 || ^5.0",
+        "phpspec/prophecy": "^1.14"
     },
     "autoload": {
         "psr-4": {"Massive\\Bundle\\BuildBundle\\": "."},
