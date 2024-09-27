@@ -27,27 +27,19 @@ jobs:
                     - php-version: '8.0'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
-                      envs:
-                          SYMFONY_PHPUNIT_REQUIRE: phpspec/prophecy-phpunit:^2.0
 
                     - php-version: '8.1'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
-                      envs:
-                          SYMFONY_PHPUNIT_REQUIRE: phpspec/prophecy-phpunit:^2.0
 
                     - php-version: '8.2'
                       dependency-versions: 'highest'
                       tools: 'composer:v2'
-                      envs:
-                          SYMFONY_PHPUNIT_REQUIRE: phpspec/prophecy-phpunit:^2.0
 
                     - php-version: '8.3'
                       dependency-versions: 'highest'
                       minimum-stability: 'dev'
                       tools: 'composer:v2'
-                      envs:
-                          SYMFONY_PHPUNIT_REQUIRE: phpspec/prophecy-phpunit:^2.0
 
         steps:
             - name: Checkout project
