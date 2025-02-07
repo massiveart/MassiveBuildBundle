@@ -28,7 +28,7 @@ interface BuilderInterface
     /**
      * Return the dependencies for this builder.
      *
-     * @return array
+     * @return array<string>
      */
     public function getDependencies();
 
