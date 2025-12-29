@@ -31,7 +31,7 @@ class MassiveOutputFormatterTest extends BaseTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function getDecorationDataProvider()
+    public static function getDecorationDataProvider()
     {
         return [
             ['Some string', 0, 'Some string'],
@@ -54,7 +54,7 @@ class MassiveOutputFormatterTest extends BaseTestCase
         $this->assertEquals($message, $result);
     }
 
-    public function getNonDecorationDataProvider()
+    public static function getNonDecorationDataProvider()
     {
         return [
             ['Some string', 0],
