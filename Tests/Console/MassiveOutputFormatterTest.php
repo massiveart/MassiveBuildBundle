@@ -21,8 +21,6 @@ class MassiveOutputFormatterTest extends BaseTestCase
      * @param string $message
      * @param int $indent
      * @param string $expected
-     *
-     * @dataProvider getDecorationDataProvider
      */
     #[DataProvider('getDecorationDataProvider')]
     public function testThatOutputWillBeDecorated($message, $indent, $expected)
@@ -35,16 +33,14 @@ class MassiveOutputFormatterTest extends BaseTestCase
 
     public static function getDecorationDataProvider()
     {
-       yield ['Some string', 0, 'Some string'];
-       yield ['Some string', 1, '    Some string'];
-       yield ['Some string', 2, '        Some string'];
+        yield ['Some string', 0, 'Some string'];
+        yield ['Some string', 1, '    Some string'];
+        yield ['Some string', 2, '        Some string'];
     }
 
     /**
      * @param string $message
      * @param int $indent
-     *
-     * @dataProvider getNonDecorationDataProvider
      */
     #[DataProvider('getNonDecorationDataProvider')]
     public function testThatOutputWillNotBeDecorated($message, $indent)
@@ -57,10 +53,8 @@ class MassiveOutputFormatterTest extends BaseTestCase
 
     public static function getNonDecorationDataProvider()
     {
-        return [
-            ['Some string', 0],
-            ['Some string', 1],
-            ['Some string', 2],
-        ];
+        yield ['Some string', 0];
+        yield ['Some string', 1];
+        yield ['Some string', 2];
     }
 }
