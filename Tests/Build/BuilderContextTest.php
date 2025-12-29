@@ -13,7 +13,7 @@ namespace Massive\Bundle\BuildBundle\Tests\Build;
 
 use Massive\Bundle\BuildBundle\Build\BuilderContext;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
-use Massive\Bundle\BuildBundle\Tests\ProphecyTrait;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class BuilderContextTest extends BaseTestCase
 {
