@@ -13,6 +13,7 @@ namespace Massive\Bundle\BuildBundle\Tests\Console;
 
 use Massive\Bundle\BuildBundle\Console\MassiveOutputFormatter;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MassiveOutputFormatterTest extends BaseTestCase
 {
@@ -23,6 +24,7 @@ class MassiveOutputFormatterTest extends BaseTestCase
      *
      * @dataProvider getDecorationDataProvider
      */
+    #[DataProvider('getDecorationDataProvider')]
     public function testThatOutputWillBeDecorated($message, $indent, $expected)
     {
         $formatter = new MassiveOutputFormatter(true);
@@ -33,11 +35,9 @@ class MassiveOutputFormatterTest extends BaseTestCase
 
     public static function getDecorationDataProvider()
     {
-        return [
-            ['Some string', 0, 'Some string'],
-            ['Some string', 1, '    Some string'],
-            ['Some string', 2, '        Some string'],
-        ];
+       yield ['Some string', 0, 'Some string'];
+       yield ['Some string', 1, '    Some string'];
+       yield ['Some string', 2, '        Some string'];
     }
 
     /**
@@ -46,6 +46,7 @@ class MassiveOutputFormatterTest extends BaseTestCase
      *
      * @dataProvider getNonDecorationDataProvider
      */
+    #[DataProvider('getNonDecorationDataProvider')]
     public function testThatOutputWillNotBeDecorated($message, $indent)
     {
         $formatter = new MassiveOutputFormatter(false);
