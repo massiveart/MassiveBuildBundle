@@ -62,7 +62,7 @@ class BuildCommand extends Command
         $this->question = new QuestionHelper();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('massive:build');
         $this->setDescription('Execute build or build targets');

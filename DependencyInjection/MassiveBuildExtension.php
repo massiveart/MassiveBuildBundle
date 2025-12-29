@@ -34,8 +34,8 @@ class MassiveBuildExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('massive_build.command.build.class', $config['command_class']);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yaml');
 
         foreach ($config['targets'] as $target => $config) {
             $dependencies = \array_keys($config['dependencies']);
