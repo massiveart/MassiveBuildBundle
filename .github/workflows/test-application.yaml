@@ -18,7 +18,7 @@ jobs:
                 include:
                     - php-version: '7.2'
                       dependency-versions: 'lowest'
-                      tools: 'composer:v1'
+                      tools: 'composer:v2'
 
                     - php-version: '7.4'
                       dependency-versions: 'highest'
@@ -37,6 +37,14 @@ jobs:
                       tools: 'composer:v2'
 
                     - php-version: '8.3'
+                      dependency-versions: 'highest'
+                      tools: 'composer:v2'
+
+                    - php-version: '8.4'
+                      dependency-versions: 'highest'
+                      tools: 'composer:v2'
+
+                    - php-version: '8.5'
                       dependency-versions: 'highest'
                       minimum-stability: 'dev'
                       tools: 'composer:v2'
