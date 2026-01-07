@@ -16,20 +16,8 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - php-version: '7.2'
+                    - php-version: '8.2'
                       dependency-versions: 'lowest'
-                      tools: 'composer:v2'
-
-                    - php-version: '7.4'
-                      dependency-versions: 'highest'
-                      tools: 'composer:v2'
-
-                    - php-version: '8.0'
-                      dependency-versions: 'highest'
-                      tools: 'composer:v2'
-
-                    - php-version: '8.1'
-                      dependency-versions: 'highest'
                       tools: 'composer:v2'
 
                     - php-version: '8.2'
@@ -51,7 +39,7 @@ jobs:
 
         steps:
             - name: Checkout project
-              uses: actions/checkout@v2
+              uses: actions/checkout@v6
 
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2
@@ -64,7 +52,7 @@ jobs:
               run: composer config minimum-stability ${{ matrix.composer-stability }}
 
             - name: Install composer dependencies
-              uses: ramsey/composer-install@v1
+              uses: ramsey/composer-install@v3
               with:
                   dependency-versions: ${{matrix.dependency-versions}}
 
@@ -77,16 +65,16 @@ jobs:
 
         steps:
             - name: Checkout project
-              uses: actions/checkout@v2
+              uses: actions/checkout@v6
 
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 8.1
+                  php-version: 8.4
                   tools: 'composer:v2'
 
             - name: Install composer dependencies
-              uses: ramsey/composer-install@v1
+              uses: ramsey/composer-install@v3
               with:
                   dependency-versions: 'highest'
 

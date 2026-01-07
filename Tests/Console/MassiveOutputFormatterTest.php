@@ -13,6 +13,7 @@ namespace Massive\Bundle\BuildBundle\Tests\Console;
 
 use Massive\Bundle\BuildBundle\Console\MassiveOutputFormatter;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MassiveOutputFormatterTest extends BaseTestCase
 {
@@ -20,9 +21,8 @@ class MassiveOutputFormatterTest extends BaseTestCase
      * @param string $message
      * @param int $indent
      * @param string $expected
-     *
-     * @dataProvider getDecorationDataProvider
      */
+    #[DataProvider('getDecorationDataProvider')]
     public function testThatOutputWillBeDecorated($message, $indent, $expected)
     {
         $formatter = new MassiveOutputFormatter(true);
@@ -31,21 +31,18 @@ class MassiveOutputFormatterTest extends BaseTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function getDecorationDataProvider()
+    public static function getDecorationDataProvider()
     {
-        return [
-            ['Some string', 0, 'Some string'],
-            ['Some string', 1, '    Some string'],
-            ['Some string', 2, '        Some string'],
-        ];
+        yield ['Some string', 0, 'Some string'];
+        yield ['Some string', 1, '    Some string'];
+        yield ['Some string', 2, '        Some string'];
     }
 
     /**
      * @param string $message
      * @param int $indent
-     *
-     * @dataProvider getNonDecorationDataProvider
      */
+    #[DataProvider('getNonDecorationDataProvider')]
     public function testThatOutputWillNotBeDecorated($message, $indent)
     {
         $formatter = new MassiveOutputFormatter(false);
@@ -54,12 +51,10 @@ class MassiveOutputFormatterTest extends BaseTestCase
         $this->assertEquals($message, $result);
     }
 
-    public function getNonDecorationDataProvider()
+    public static function getNonDecorationDataProvider()
     {
-        return [
-            ['Some string', 0],
-            ['Some string', 1],
-            ['Some string', 2],
-        ];
+        yield ['Some string', 0];
+        yield ['Some string', 1];
+        yield ['Some string', 2];
     }
 }

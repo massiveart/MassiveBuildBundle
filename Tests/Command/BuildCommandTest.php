@@ -15,8 +15,8 @@ use Massive\Bundle\BuildBundle\Build\BuilderInterface;
 use Massive\Bundle\BuildBundle\Command\BuildCommand;
 use Massive\Bundle\BuildBundle\ContainerAwareInterface;
 use Massive\Bundle\BuildBundle\Tests\BaseTestCase;
-use Massive\Bundle\BuildBundle\Tests\ProphecyTrait;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class BuildCommandTest extends BaseTestCase

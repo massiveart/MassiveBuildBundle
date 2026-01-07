@@ -1,0 +1,14 @@
+parameters:
+    massive_build.build.registry.class: Massive\Bundle\BuildBundle\Build\BuildRegistry
+
+services:
+    massive_build.build.registry:
+        class: '%massive_build.build.registry.class%'
+
+    massive_build.command.build:
+        class: '%massive_build.command.build.class%'
+        arguments:
+            - '@massive_build.build.registry'
+            - '@service_container'
+        tags:
+            - { name: 'console.command' }
